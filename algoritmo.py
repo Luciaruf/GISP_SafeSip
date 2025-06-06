@@ -179,11 +179,11 @@ def interpreta_tasso_alcolemico(bac: float) -> Dict[str, Union[str, bool]]:
     elif bac < BAC_THRESHOLDS['SOBER']:
         return {'livello': 'Sobrio', 'legale': True}
     elif bac < BAC_THRESHOLDS['WARNING']:
-        return {'livello': 'Stai quasi raggiungendo il limite legale', 'legale': True}
+        return {'livello': 'Vicino al limite', 'legale': True}
     elif bac <= BAC_THRESHOLDS['LEGAL_LIMIT']:
-        return {'livello': 'Attenzione, sei vicino al limite legale', 'legale': True}
+        return {'livello': 'Limite superato', 'legale': True}
     else:
-        return {'livello': 'Attenzione, non mettersi alla guida', 'legale': False}
+        return {'livello': 'Limite superato', 'legale': False}
 
 def calcola_tempo_sober(bac: float) -> str:
     """

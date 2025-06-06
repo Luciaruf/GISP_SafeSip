@@ -6,6 +6,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
         --primary-pastel: #A8D8EA;
         --secondary-pastel: #AA96DA;
         --accent-pastel: #FCBAD3;
@@ -18,20 +21,21 @@
     }
 
     .partner-section {
-        background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
-        padding: 80px 0;
-        margin-bottom: 60px;
-        color: var(--text-color);
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
     }
 
     .partner-title {
-        font-size: 2.5rem;
+        color: #000;
         font-weight: 700;
+        font-size: 2.5rem;
         margin-bottom: 1.5rem;
         line-height: 1.2;
     }
 
     .partner-subtitle {
+        color: #000;
         font-size: 1.2rem;
         margin-bottom: 2rem;
         opacity: 0.9;
@@ -46,8 +50,8 @@
     }
 
     .form-label {
+        color: #000;
         font-weight: 500;
-        color: var(--text-color);
     }
 
     .form-control {
@@ -57,8 +61,8 @@
     }
 
     .form-control:focus {
-        border-color: var(--secondary-pastel);
-        box-shadow: 0 0 0 0.2rem rgba(170, 150, 218, 0.25);
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
     }
 
     .btn-partner {
@@ -105,6 +109,191 @@
             padding: 20px;
         }
     }
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .btn-primary {
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .alert-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .form-select:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .card-header {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        border-radius: 8px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+        border-color: var(--lavender-blue) !important;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .feature-icon {
+        color: var(--lavender-blue);
+    }
+
+    .section-title {
+        color: var(--blue-gray);
+    }
+
+    .cta-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #fff;
+    }
+
+    .partner-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .partner-card:hover {
+        border-color: var(--blue-gray);
+        box-shadow: 0 5px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .partner-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        border-radius: 12px 12px 0 0;
+        color: #000 !important;
+    }
+
+    .partner-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .partner-item {
+        border-left: 4px solid var(--lavender-blue);
+        transition: all 0.3s ease;
+    }
+
+    .partner-item:hover {
+        border-left-color: var(--blue-gray);
+        background-color: rgba(167, 180, 237, 0.1);
+    }
+
+    .partner-item .badge {
+        background-color: var(--golden-yellow);
+        color: #000;
+    }
+
+    .partner-item .badge.status {
+        background-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .partner-item .badge.type {
+        background-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-check-label {
+        color: #000;
+    }
+
+    .btn-outline-primary {
+        color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .btn-outline-danger {
+        color: var(--blue-gray);
+        border-color: var(--blue-gray);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--blue-gray);
+        border-color: var(--blue-gray);
+        color: #000;
+    }
 </style>
 {% endblock %}
 
@@ -129,14 +318,14 @@
                     <h2 class="mb-4">Registra il tuo locale</h2>
                     <form action="{{ url_for('register_partner') }}" method="POST" class="needs-validation" novalidate>
                         <div class="mb-3">
-                            <label for="barName" class="form-label">Nome del Bar</label>
+                            <label for="barName" class="form-label">Nome del locale</label>
                             <input type="text" class="form-control" id="barName" name="barName" required>
                             <div class="form-text">Il nome del tuo locale</div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="form-text">Email di contatto del bar</div>
+                            <div class="form-text">Email di contatto del locale</div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -150,12 +339,12 @@
                         <div class="mb-3">
                             <label for="address" class="form-label">Indirizzo</label>
                             <input type="text" class="form-control" id="address" name="address" required>
-                            <div class="form-text">Indirizzo completo del bar</div>
+                            <div class="form-text">Indirizzo completo del locale</div>
                         </div>
                         <div class="mb-3">
                             <label for="city" class="form-label">Città</label>
                             <input type="text" class="form-control" id="city" name="city" required>
-                            <div class="form-text">Città dove si trova il bar</div>
+                            <div class="form-text">Città dove si trova il locale</div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Invia richiesta</button>
                     </form>
@@ -182,4 +371,51 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Funzione per formattare il testo (nome locale e città)
+function formatText(text) {
+    return text
+        .trim()  // Rimuove solo gli spazi iniziali e finali
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
+// Gestione del form
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Script loaded'); // Debug
+    
+    const form = document.querySelector('form');
+    const barNameInput = document.getElementById('barName');
+    const cityInput = document.getElementById('city');
+    
+    console.log('Form:', form); // Debug
+    console.log('BarName input:', barNameInput); // Debug
+    console.log('City input:', cityInput); // Debug
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submitted'); // Debug
+            e.preventDefault();
+            
+            // Formatta il nome del locale e la città
+            if (barNameInput) {
+                barNameInput.value = formatText(barNameInput.value);
+                console.log('Formatted bar name:', barNameInput.value); // Debug
+            }
+            
+            if (cityInput) {
+                cityInput.value = formatText(cityInput.value);
+                console.log('Formatted city:', cityInput.value); // Debug
+            }
+            
+            // Procedi con l'invio del form
+            form.submit();
+        });
+    }
+});
+</script>
 {% endblock %} 

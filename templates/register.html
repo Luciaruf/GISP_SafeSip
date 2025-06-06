@@ -2,6 +2,175 @@
 
 {% block title %}SAFESIP - Registrazione{% endblock %}
 
+{% block extra_css %}
+<style>
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .btn-primary {
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .alert-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .form-control:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-select:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .card-header {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        border-radius: 8px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+        border-color: var(--lavender-blue) !important;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .form-label {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .form-text {
+        color: #000;
+    }
+
+    .register-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
+    }
+
+    .register-title {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .register-subtitle {
+        color: #000;
+    }
+
+    .register-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .register-card:hover {
+        border-color: var(--blue-gray);
+        box-shadow: 0 5px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .register-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        border-radius: 12px 12px 0 0;
+        color: #000 !important;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-check-label {
+        color: #000;
+    }
+
+    .register-link {
+        color: var(--blue-gray);
+        text-decoration: none;
+    }
+
+    .register-link:hover {
+        color: var(--lavender-blue);
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">

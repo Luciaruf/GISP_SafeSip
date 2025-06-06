@@ -2,168 +2,572 @@
 
 {% block title %}Monitoraggio Drink - Arduino Drink{% endblock %}
 
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <div class="card mt-4 mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0"><i class="fas fa-cocktail me-2"></i> Monitoraggio Drink</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Messaggio di stato -->
-                    <div id="status-message" class="alert alert-info mb-3">
-                        <i class="fas fa-info-circle me-2"></i> Monitoraggio in corso...
-                    </div>
+{% block extra_css %}
+<style>
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
+    }
 
-                    <!-- Card per il test locale (simulazione manuale) -->
-                    <div class="card mb-4" id="test-manuale-card">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0"><i class="fas fa-vial me-2"></i> Simulatore Manuale</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="alert alert-info mb-3">
-                                <small><i class="fas fa-info-circle me-1"></i> Inserisci manualmente il peso e i sorsi</small>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="peso-manuale" class="form-label">Peso iniziale:</label>
-                                <div class="input-group mb-2">
-                                    <input type="number" step="5" class="form-control" id="peso-manuale" value="300" required>
-                                    <button type="button" id="btn-imposta-peso" class="btn btn-primary">Imposta</button>
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(45deg, var(--golden-yellow), #e6c05f);
+    }
+
+    .drink-glass {
+        background: rgba(255, 255, 255, 0.9);
+        border: 3px solid var(--lavender-blue);
+        border-radius: 10px 10px 50px 50px;
+        overflow: hidden;
+    }
+
+    .drink-face {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .eye {
+        width: 15px;
+        height: 15px;
+        background: var(--blue-gray);
+        border-radius: 50%;
+        position: relative;
+    }
+
+    .mouth {
+        width: 30px;
+        height: 15px;
+        border: 3px solid var(--blue-gray);
+        border-radius: 0 0 30px 30px;
+        margin-top: 20px;
+    }
+
+    .mouth.smile {
+        border-radius: 0 0 30px 30px;
+    }
+
+    .mouth.sad {
+        border-radius: 30px 30px 0 0;
+        transform: rotate(180deg);
+    }
+
+    .progress-bar {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    #drink-liquid {
+        transition: height 0.5s ease;
+        background: linear-gradient(to top, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .btn-primary {
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .btn-success {
+        background-color: var(--golden-yellow) !important;
+        border-color: var(--golden-yellow) !important;
+        color: #000 !important;
+    }
+
+    .btn-success:hover {
+        background-color: #e6c05f !important;
+        border-color: #e6c05f !important;
+        color: #000 !important;
+    }
+
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .alert-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .form-control:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-select:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .card-header {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        border-radius: 8px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+        border-color: var(--lavender-blue) !important;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .form-label {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .form-text {
+        color: #000;
+    }
+
+    .monitora-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
+    }
+
+    .monitora-title {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .monitora-subtitle {
+        color: #000;
+    }
+
+    .monitora-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .monitora-card:hover {
+        border-color: var(--blue-gray);
+        box-shadow: 0 5px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .monitora-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        border-radius: 12px 12px 0 0;
+        color: #000 !important;
+    }
+
+    .monitora-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .monitora-item {
+        border-left: 4px solid var(--lavender-blue);
+        transition: all 0.3s ease;
+    }
+
+    .monitora-item:hover {
+        border-left-color: var(--blue-gray);
+        background-color: rgba(167, 180, 237, 0.1);
+    }
+
+    .monitora-item .badge {
+        background-color: var(--golden-yellow);
+        color: #000;
+    }
+
+    .monitora-item .badge.status {
+        background-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .monitora-item .badge.type {
+        background-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-check-label {
+        color: #000;
+    }
+
+    .btn-outline-primary {
+        color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .btn-outline-danger {
+        color: var(--blue-gray);
+        border-color: var(--blue-gray);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--blue-gray);
+        border-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .progress {
+        height: 25px;
+        border-radius: 15px;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+        transition: width 1s ease-in-out;
+        background-color: var(--golden-yellow);
+    }
+
+    .progress-bar.bg-success {
+        background-color: var(--lavender-blue) !important;
+    }
+
+    .progress-bar.bg-warning {
+        background-color: var(--golden-yellow) !important;
+    }
+
+    .progress-bar.bg-danger {
+        background-color: var(--blue-gray) !important;
+    }
+
+    .bac-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--golden-yellow);
+        margin-bottom: 0.5rem;
+    }
+
+    .bac-status {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #000;
+    }
+
+    .bac-description {
+        color: #000;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .bac-marker {
+        position: absolute;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        background-color: var(--golden-yellow);
+        z-index: 2;
+    }
+
+    .bac-marker::after {
+        content: 'Limite legale';
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--golden-yellow);
+        color: #000;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .bac-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 0 5px;
+    }
+
+    .bac-labels span {
+        font-size: 0.85rem;
+        color: #000;
+        font-weight: 500;
+    }
+
+    .table th {
+        color: #000;
+    }
+
+    .table td {
+        color: #000;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(167, 180, 237, 0.1);
+    }
+
+    .progress-container {
+        margin-bottom: 0.5rem;
+    }
+
+    .progress {
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(167, 180, 237, 0.2);
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        transition: width 0.6s ease-in-out;
+        background-size: 200% 200%;
+        animation: gradient 3s ease infinite;
+    }
+
+    .progress-bar-striped {
+        background-image: linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.15) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.15) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 1rem 1rem;
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .progress-labels {
+        font-size: 0.8rem;
+        color: var(--blue-gray);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Card principale -->
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white py-2">
+                    <h3 class="mb-0 text-center">
+                        <i class="fas fa-cocktail me-2"></i>Monitoraggio Drink
+                    </h3>
+                </div>
+                <div class="card-body p-3">
+                    <!-- Istruzioni iniziali -->
+                    <div class="alert alert-primary d-flex align-items-center mb-2 shadow-sm">
+                        <i class="fas fa-info-circle me-2 fs-4"></i>
+                        <div>
+                            <h5 class="mb-1">Come iniziare:</h5>
+                            <ol class="mb-0">
+                                <li>Posiziona il bicchiere sul sottobicchiere</li>
+                                <li>Clicca il pulsante su tuo sottobicchiere intelligente</li>
+                                <li>Clicca su "Inizia!" per avviare la consumazione</li>
+                            </ol>
                                 </div>
                             </div>
                             
-                            <div class="mb-3" id="sorsi-controls">
-                                <label class="form-label">Simula sorsi:</label>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <button type="button" class="btn btn-outline-primary btn-sorso" data-peso="5">Sorso piccolo (-5g)</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sorso" data-peso="15">Sorso medio (-15g)</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sorso" data-peso="30">Sorso grande (-30g)</button>
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-light text-center" id="peso-display">
-                                Peso attuale: <strong id="peso-attuale">0</strong>g
-                            </div>
-                        </div>
+                    <!-- Messaggio di stato -->
+                    <div id="status-message" class="alert alert-info d-flex align-items-center mb-2 shadow-sm">
+                        <i class="fas fa-info-circle me-2 fs-4"></i>
+                        <div>Monitoraggio in corso...</div>
                     </div>
                     
-                    <!-- Card monitoraggio peso -->
-                    <div class="card mb-4" id="monitoraggio-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-weight me-2"></i> Monitoraggio Peso</h5>
+                    <!-- Simulatore Manuale -->
+                    <div class="card mb-2 border-0 shadow-sm" id="test-manuale-card">
+                        <div class="card-header bg-gradient-success text-white py-2">
+                            <h5 class="mb-0">
+                                <i class="fas fa-vial me-2"></i>Registra il tuo drink!
+                            </h5>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ultimo peso rilevato:</label>
-                                        <div class="alert alert-primary py-2">
-                                            <strong id="ultimo-peso">--</strong>
+                        <div class="card-body p-3">
+                            <div class="mb-2">
+                                <label for="peso-manuale" class="form-label fw-bold">Peso iniziale:</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="input-group">
+                                        <input type="number" step="5" class="form-control form-control-lg" 
+                                               id="peso-manuale" value="0" required>
+                                        <button type="button" id="btn-imposta-peso" 
+                                                class="btn btn-primary btn-lg">
+                                            <i class="fas fa-check me-2"></i>Inizia!
+                                        </button>
+                                        </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="mb-3">
-                                        <label class="form-label">Peso consumato:</label>
-                                        <div class="alert alert-info py-2">
-                                            <strong id="peso-consumato">0g</strong>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Progresso:</label>
-                                        <div class="progress" style="height: 25px;">
-                                            <div id="drink-progress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            <div class="alert alert-light text-center shadow-sm mb-0" id="peso-display">
+                                <i class="fas fa-weight me-2"></i>
+                                Peso attuale: <strong id="peso-attuale" class="fs-4">0</strong>g
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-5 text-center">
-                                    <div class="drink-visualization mb-3">
-                                        <div class="drink-glass">
-                                            <div id="drink-liquid" style="height: 100%;"></div>
-                                            <div id="drink-face" class="drink-face">
-                                                <div class="eyes">
-                                                    <div class="eye"></div>
-                                                    <div class="eye"></div>
+                    <!-- Monitoraggio Peso -->
+                    <div class="card border-0 shadow-sm" id="monitoraggio-card">
+                        <div class="card-header bg-gradient-primary text-white py-2">
+                            <h5 class="mb-0">
+                                <i class="fas fa-weight me-2"></i>Monitora i tuoi sorsi!
+                            </h5>
                                                 </div>
-                                                <div class="mouth smile"></div>
+                        <div class="card-body p-3">
+                            <div class="alert alert-primary d-flex align-items-center mb-3 shadow-sm">
+                                <i class="fas fa-hand-pointer me-2 fs-4"></i>
+                                <div>
+                                    <h5 class="mb-1">Monitoraggio:</h5>
+                                    <p class="mb-0">Premi il pulsante sul tuo sottobicchiere smart, per monitorare i tuoi progressi!</p>
                                             </div>
                                         </div>
-                                        <p id="drink-remaining" class="mt-1">Rimanente: 0g</p>
-                                    </div>
+                            <div class="row g-2">
+                                <div class="col-md-7">
+                                    <div class="mb-2">
+                                        <label class="form-label fw-bold">Ultimo peso rilevato:</label>
+                                        <div class="alert alert-primary py-2 shadow-sm">
+                                            <i class="fas fa-balance-scale me-2"></i>
+                                            <strong id="ultimo-peso" class="fs-4">--</strong>
                                 </div>
                             </div>
                             
-                            <div>
-                                <canvas id="weightChart" width="400" height="200"></canvas>
-                            </div>
+                                    <div class="mb-2">
+                                        <label class="form-label fw-bold">Peso consumato:</label>
+                                        <div class="alert alert-info py-2 shadow-sm">
+                                            <i class="fas fa-glass-whiskey me-2"></i>
+                                            <strong id="peso-consumato" class="fs-4">0g</strong>
                         </div>
                     </div>
                     
-                    <!-- Card dettagli drink -->
-                    <div class="card mb-4" id="drink-details-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> Dettagli</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Drink:</label>
-                                        <div class="alert alert-light py-2">
-                                            <strong id="drink-detail-name">--</strong>
+                                    <div class="mb-2">
+                                        <label class="form-label fw-bold">Progresso:</label>
+                                        <div class="progress-container position-relative">
+                                            <div class="progress shadow-sm" style="height: 30px;">
+                                                <div id="drink-progress" 
+                                                     class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                     role="progressbar" 
+                                                     style="width: 0%; background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));" 
+                                                     aria-valuenow="0" 
+                                                     aria-valuemin="0" 
+                                                     aria-valuemax="100">
+                                                    <span class="fs-5 fw-bold text-white">0%</span>
+                                                </div>
+                                            </div>
+                                            <div class="progress-labels d-flex justify-content-between mt-1">
+                                                <small class="text-muted">Inizio</small>
+                                                <small class="text-muted">Fine</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Alcol:</label>
-                                        <div class="alert alert-light py-2">
-                                            <strong id="drink-detail-alcol">--</strong>
+                                <div class="col-md-5">
+                                    <div class="drink-visualization text-center p-2 bg-light rounded-3 shadow-sm">
+                                        <div class="drink-glass position-relative mx-auto" style="width: 120px; height: 160px;">
+                                            <div id="drink-liquid" class="position-absolute bottom-0 w-100" 
+                                                 style="background: linear-gradient(to top, #4a90e2, #87ceeb); transition: height 0.5s ease;">
+                                        </div>
+                                            <div id="drink-face" class="drink-face position-absolute top-50 start-50 translate-middle">
+                                                <div class="eyes d-flex justify-content-center gap-4">
+                                                    <div class="eye"></div>
+                                                    <div class="eye"></div>
+                                    </div>
+                                                <div class="mouth smile"></div>
+                                </div>
+                            </div>
+                                        <p id="drink-remaining" class="mt-2 fs-5 fw-bold mb-0">
+                                            Rimanente: <span class="text-primary">0g</span>
+                                        </p>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Peso iniziale:</label>
-                                        <div class="alert alert-light py-2">
-                                            <strong id="drink-detail-peso">--</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Consumato:</label>
-                                        <div class="alert alert-light py-2">
-                                            <strong id="drink-detail-consumato">0g</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid">
-                                <button type="button" id="complete-btn" class="btn btn-success btn-lg">
-                                    <i class="fas fa-check-circle me-2"></i> Termina Consumazione
+                    <!-- Bottone Termina Consumazione -->
+                    <div class="d-grid mt-2">
+                        <button type="button" id="complete-btn" 
+                                class="btn btn-success btn-lg py-2 shadow-sm">
+                            <i class="fas fa-check-circle me-2"></i>Termina Consumazione
                                 </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
         // Variabili globali
@@ -183,9 +587,74 @@
 
     // Inizializzazione quando il DOM è pronto
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOMContentLoaded fired. Initializing monitoring.');
-        console.log('Inizializzazione monitoraggio per drink:', selectedDrinkName);
+        console.log('DOMContentLoaded fired');
         
+        // Pulsante imposta peso
+        const btnImpostaPeso = document.getElementById('btn-imposta-peso');
+        console.log('Button found:', btnImpostaPeso);
+        
+        if (btnImpostaPeso) {
+            btnImpostaPeso.addEventListener('click', function() {
+                console.log('Button clicked');
+                const pesoInput = document.getElementById('peso-manuale');
+                const peso = parseFloat(pesoInput.value);
+                console.log('Weight value:', peso);
+                
+                if (isNaN(peso) || peso <= 0) {
+                    alert('Inserisci un peso valido maggiore di zero.');
+                    return;
+                }
+
+                // Crea la nuova consumazione
+                fetch('/create_consumption', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        peso_iniziale: peso,
+                        drink_id: selectedDrinkId,
+                        bar_id: selectedBarId,
+                        stomaco: '{{ session.get("stomaco_state", "pieno") }}'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response:', data);
+                    if (data.success) {
+                        // Aggiorna l'ID della consumazione
+                        consumazioneId = data.consumption_id;
+                        
+                        // Aggiorna l'interfaccia
+                        pesoIniziale = peso;
+                        document.getElementById('drink-detail-peso').textContent = peso + 'g';
+                        document.getElementById('peso-attuale').textContent = peso;
+                        
+                        // Mostra messaggio di successo
+                        updateStatusMessage(`Nuova consumazione creata!`, 'success');
+                    } else {
+                        updateStatusMessage('Errore: ' + data.error, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    updateStatusMessage('Errore durante la creazione della consumazione', 'danger');
+                });
+            });
+        }
+
+        // Pulsante termina consumazione
+        const completeBtn = document.getElementById('complete-btn');
+        if (completeBtn) {
+            console.log('Complete button found');
+            completeBtn.addEventListener('click', function() {
+                console.log('Complete button clicked');
+                finishConsumption();
+            });
+        } else {
+            console.error('Complete button not found!');
+        }
+
         // Aggiorna l'interfaccia con i dettagli del drink
         document.getElementById('drink-detail-name').textContent = selectedDrinkName;
         document.getElementById('drink-detail-alcol').textContent = percentualeAlcol + "%";
@@ -193,36 +662,13 @@
         // Inizializza il grafico
         initializeChart();
         
-        // Imposta gli event listener
-        setupEventListeners();
-        
         // Avvia il polling dei dati Arduino
         startArduinoPolling();
     });
     
     // Imposta gli event listener
     function setupEventListeners() {
-        console.log('Setting up event listeners.');
-        // Pulsante imposta peso
-        const btnImpostaPeso = document.getElementById('btn-imposta-peso');
-        console.log('Elemento btn-imposta-peso trovato:', btnImpostaPeso);
-        if (btnImpostaPeso) {
-            btnImpostaPeso.addEventListener('click', function() {
-                const pesoInput = document.getElementById('peso-manuale');
-                const peso = parseFloat(pesoInput.value);
-                
-                if (isNaN(peso) || peso <= 0) {
-                    alert('Inserisci un peso valido maggiore di zero.');
-                    return;
-                }
-                
-                // Aggiorna il display del peso
-                document.getElementById('peso-attuale').textContent = peso;
-                
-                // Gestisci il nuovo peso
-                handleNewWeight(peso);
-            });
-        }
+        console.log('Setting up event listeners...');
         
         // Pulsanti sorsi
         const sorsiButtons = document.querySelectorAll('.btn-sorso');
@@ -291,6 +737,11 @@
     // Funzione per gestire un nuovo peso rilevato
     function handleNewWeight(peso) {
         console.log('Nuovo peso rilevato:', peso);
+        console.log('Ultimo peso:', ultimoPeso);
+        console.log('ID Consumazione:', consumazioneId);
+        
+        // Arrotonda il peso all'intero più vicino
+        peso = Math.round(peso);
         
         // Aggiorna l'interfaccia con il nuovo peso
         const pesoElement = document.getElementById('ultimo-peso');
@@ -298,107 +749,66 @@
             pesoElement.textContent = peso + 'g';
         }
         
-        // Se è il primo peso, imposta come peso iniziale
-        if (pesoIniziale === 0 || !pesoIniziale) {
-            pesoIniziale = peso;
-            
-            const detailPesoElement = document.getElementById('drink-detail-peso');
-            if (detailPesoElement) {
-                detailPesoElement.textContent = pesoIniziale + 'g';
-            }
-            
-            updateStatusMessage('Peso iniziale rilevato: ' + pesoIniziale + 'g', 'success');
-            
-            // Se non abbiamo ancora una consumazione attiva, creane una
-            if (!consumazioneId || consumazioneId === 'null') {
-                // Ottieni lo stato dello stomaco dalla sessione
-                const stomaco = '{{ session.get("stomaco_state", "pieno") }}';
-                console.log('Stato dello stomaco dalla sessione:', stomaco);
+        // Se abbiamo una consumazione attiva e un peso precedente
+        if (consumazioneId && consumazioneId !== 'null' && ultimoPeso !== null) {
+            // Verifica se c'è stata una diminuzione di peso
+            if (peso < ultimoPeso) {
+                const quantita = ultimoPeso - peso;
+                console.log('Diminuzione di peso rilevata:', quantita + 'g');
                 
-                fetch('/create_consumption', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        peso_iniziale: pesoIniziale,
-                        drink_id: selectedDrinkId,
-                        bar_id: selectedBarId,
-                        stomaco: stomaco
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        consumazioneId = data.consumption_id;
-                        updateStatusMessage(`Consumazione creata con successo! BAC iniziale: ${data.bac} g/L`, 'success');
-                    } else {
-                        updateStatusMessage('Errore nella creazione della consumazione: ' + data.error, 'danger');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    updateStatusMessage('Errore durante la creazione della consumazione', 'danger');
-                });
-            }
-        }
-        
-        // Calcola quanto è stato consumato
-        if (ultimoPeso !== null && peso < ultimoPeso) {
-            // Questo è un sorso
-            const quantita = ultimoPeso - peso;
-            sorsiCalcolati.push({
-                timestamp: new Date(),
-                quantita: quantita
-            });
-            
-            console.log('Sorso rilevato:', quantita + 'g');
-            
-            // Registra il sorso se abbiamo una consumazione attiva
-            if (consumazioneId && consumazioneId !== 'null') {
+                // Registra il sorso con la differenza di peso
                 registraSorso(consumazioneId, quantita);
+            } else {
+                console.log('Nessuna diminuzione di peso rilevata');
             }
+        } else {
+            console.log('Condizioni non soddisfatte:', {
+                consumazioneId: consumazioneId,
+                ultimoPeso: ultimoPeso
+            });
         }
         
         // Aggiorna il peso complessivo consumato
-        volumeConsumato = Math.max(0, pesoIniziale - peso);
-        
-        const pesoConsumatoElement = document.getElementById('peso-consumato');
-        if (pesoConsumatoElement) {
-            pesoConsumatoElement.textContent = volumeConsumato + 'g';
-        }
-        
-        const detailConsumatoElement = document.getElementById('drink-detail-consumato');
-        if (detailConsumatoElement) {
-            detailConsumatoElement.textContent = volumeConsumato + 'g';
-        }
-        
-        // Aggiorna la percentuale consumata
-        const percentageConsumed = pesoIniziale > 0 ? (volumeConsumato / pesoIniziale) * 100 : 0;
-        const percentageRemaining = 100 - percentageConsumed;
-        
-        const progressElement = document.getElementById('drink-progress');
-        if (progressElement) {
-            progressElement.style.width = percentageConsumed + '%';
-            progressElement.textContent = Math.round(percentageConsumed) + '%';
-        }
-        
-        const remainingElement = document.getElementById('drink-remaining');
-        if (remainingElement) {
-            remainingElement.textContent = 'Rimanente: ' + (pesoIniziale - volumeConsumato) + 'g';
+        if (pesoIniziale > 0) {
+            volumeConsumato = Math.max(0, pesoIniziale - peso);
+            
+            const pesoConsumatoElement = document.getElementById('peso-consumato');
+            if (pesoConsumatoElement) {
+                pesoConsumatoElement.textContent = volumeConsumato + 'g';
+            }
+            
+            const detailConsumatoElement = document.getElementById('drink-detail-consumato');
+            if (detailConsumatoElement) {
+                detailConsumatoElement.textContent = volumeConsumato + 'g';
+            }
+            
+            // Aggiorna la percentuale consumata
+            const percentageConsumed = (volumeConsumato / pesoIniziale) * 100;
+            const percentageRemaining = 100 - percentageConsumed;
+            
+            const progressElement = document.getElementById('drink-progress');
+            if (progressElement) {
+                progressElement.style.width = percentageConsumed + '%';
+                progressElement.textContent = Math.round(percentageConsumed) + '%';
+            }
+            
+            const remainingElement = document.getElementById('drink-remaining');
+            if (remainingElement) {
+                remainingElement.textContent = 'Rimanente: ' + (pesoIniziale - volumeConsumato) + 'g';
+            }
+            
+            // Aggiorna l'animazione del drink
+            const liquidElement = document.getElementById('drink-liquid');
+            if (liquidElement) {
+                liquidElement.style.height = percentageRemaining + '%';
+            }
+            
+            // Aggiorna l'espressione del drink
+            updateDrinkFace(percentageConsumed);
         }
         
         // Aggiorna il grafico
         updateChart(peso);
-        
-        // Aggiorna l'animazione del drink
-        const liquidElement = document.getElementById('drink-liquid');
-        if (liquidElement) {
-            liquidElement.style.height = percentageRemaining + '%';
-        }
-        
-        // Aggiorna l'espressione del drink
-        updateDrinkFace(percentageConsumed);
         
         // Memorizza questo peso per il prossimo confronto
         ultimoPeso = peso;
@@ -423,6 +833,9 @@
         // Ottieni lo stato dello stomaco dalla sessione
         const stomaco = '{{ session.get("stomaco_state", "pieno") }}';
         
+        // Mostra messaggio di caricamento
+        updateStatusMessage('Creazione consumazione in corso...', 'info');
+        
         fetch('/create_consumption', {
             method: 'POST',
             headers: {
@@ -430,35 +843,54 @@
             },
             body: JSON.stringify({
                 peso_iniziale: initialWeight,
-                drink_id: '{{ drink_id }}',
-                bar_id: '{{ bar_id }}',
+                drink_id: selectedDrinkId,
+                bar_id: selectedBarId,
                 stomaco: stomaco
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Errore HTTP: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Risposta server:', data);
+            
             if (data.success) {
-                consumptionId = data.consumption_id;
-                document.getElementById('consumption-status').textContent = `Monitoraggio attivo: ${data.drink_name}`;
-                document.getElementById('start-monitoring').style.display = 'none';
-                document.getElementById('stop-monitoring').style.display = 'block';
-                document.getElementById('manual-sip-section').style.display = 'block';
+                // Aggiorna l'ID della consumazione
+                consumazioneId = data.consumption_id;
+                console.log('Nuova consumazione creata con ID:', consumazioneId);
                 
-                // Aggiorna il grafico con il peso iniziale
-                updateWeightGraph(initialWeight);
+                // Aggiorna l'interfaccia
+                pesoIniziale = initialWeight;
+                document.getElementById('drink-detail-peso').textContent = initialWeight + 'g';
+                document.getElementById('peso-attuale').textContent = initialWeight;
+                
+                // Mostra messaggio di successo
+                updateStatusMessage(`Nuova consumazione creata!`, 'success');
             } else {
-                showError(data.error || 'Errore durante la creazione della consumazione');
+                // Se la consumazione è stata creata ma c'è un errore nel messaggio
+                if (data.consumption_id) {
+                    consumazioneId = data.consumption_id;
+                    updateStatusMessage(`Consumazione creata, ma c'è stato un errore: ${data.error}`, 'warning');
+                } else {
+                    updateStatusMessage(`Errore: ${data.error || 'Errore sconosciuto'}`, 'danger');
+                }
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showError('Errore durante la creazione della consumazione');
+            console.error('Errore durante la creazione della consumazione:', error);
+            updateStatusMessage(`Errore di comunicazione: ${error.message}`, 'danger');
         });
     }
     
     // Funzione per terminare una consumazione
     function finishConsumption() {
+        console.log('Tentativo di terminare la consumazione:', consumazioneId);
+        
         if (!consumazioneId || consumazioneId === 'null') {
+            console.log('Nessuna consumazione attiva da terminare');
             updateStatusMessage('Nessuna consumazione attiva da terminare', 'warning');
             return;
         }
@@ -469,13 +901,23 @@
             completeBtn.disabled = true;
             completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Completamento in corso...';
         }
+
+        // Se c'è stato un ultimo sorso non registrato, registralo
+        if (ultimoPeso !== null && pesoIniziale > 0) {
+            const volumeUltimoSorso = pesoIniziale - ultimoPeso;
+            if (volumeUltimoSorso > 0) {
+                console.log('Registrazione ultimo sorso:', volumeUltimoSorso + 'g');
+                registraSorso(consumazioneId, volumeUltimoSorso);
+            }
+        }
         
         const data = {
             consumption_id: consumazioneId,
-            peso_finale: ultimoPeso || 0,
-            volume_consumato: volumeConsumato,
-            sorsi: sorsiCalcolati.length
+            final_weight: ultimoPeso || 0,
+            final_bac: document.getElementById('drink-detail-bac')?.textContent || '0'
         };
+        
+        console.log('Dati inviati per il completamento:', data);
         
         fetch('/finish_consumption', {
             method: 'POST',
@@ -484,8 +926,12 @@
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Risposta ricevuta:', response);
+            return response.json();
+        })
         .then(data => {
+            console.log('Dati ricevuti:', data);
             if (data.success) {
                 updateStatusMessage('Consumazione completata con successo!', 'success');
                 
@@ -494,6 +940,7 @@
                     window.location.href = '/world';
                 }, 3000);
             } else {
+                console.error('Errore nel completamento:', data.error);
                 updateStatusMessage('Errore: ' + data.error, 'danger');
                 
                 // Riabilita il pulsante
@@ -601,7 +1048,13 @@
 
     // Funzione per registrare un sorso via AJAX
     function registraSorso(consumazioneId, volume) {
+        // Invia solo il volume, il backend si occuperà di creare il record nella tabella Sorsi
         const data = { volume: volume };
+        
+        console.log('Invio dati per creazione sorso:', {
+            consumazioneId: consumazioneId,
+            volume: volume
+        });
         
         // Mostra un messaggio di caricamento
         updateStatusMessage('Registrazione sorso in corso...', 'info');
@@ -616,97 +1069,83 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('Sorso registrato con successo:', data);
+                console.log('Sorso creato con successo nella tabella Sorsi:', data);
                 // Aggiorna l'UI con il BAC e altri dettagli
                 updateStatusMessage(`Sorso registrato! BAC: ${data.bac} g/L`, 'success');
             } else {
-                console.error('Errore nella registrazione del sorso:', data.error);
+                console.error('Errore nella creazione del sorso:', data.error);
                 updateStatusMessage('Errore nella registrazione del sorso: ' + data.error, 'danger');
             }
         })
         .catch(error => {
-            console.error('Errore di comunicazione durante la registrazione del sorso:', error);
+            console.error('Errore di comunicazione durante la creazione del sorso:', error);
             updateStatusMessage('Errore di comunicazione con il server per il sorso', 'danger');
         });
     }
+
+    // Aggiungi il codice per il peso
+    const statusDiv = document.getElementById('status');
+    const pesoDiv = document.getElementById('valorePeso');
+
+    // Crea una connessione EventSource
+    const evtSource = new EventSource('/stream');
+
+    // Gestisce gli eventi in arrivo
+    evtSource.onmessage = function(event) {
+        console.log('Nuovo peso ricevuto:', event.data);
+        const peso = Math.round(parseFloat(event.data));
+        if (!isNaN(peso)) {
+            // Aggiorna il peso attuale nella sezione peso iniziale
+            const pesoAttualeElement = document.getElementById('peso-attuale');
+            if (pesoAttualeElement) {
+                pesoAttualeElement.textContent = peso;
+            }
+            // Aggiorna il valore nel campo di input
+            const pesoInput = document.getElementById('peso-manuale');
+            if (pesoInput) {
+                pesoInput.value = peso;
+            }
+            handleNewWeight(peso);
+        }
+    };
+
+    // Gestisce l'apertura della connessione
+    evtSource.onopen = function() {
+        console.log('Connessione SSE stabilita');
+    };
+
+    // Gestisce eventuali errori
+    evtSource.onerror = function(err) {
+        console.error("Errore EventSource:", err);
+        evtSource.close();
+        
+        // Riprova a riconnettersi dopo 5 secondi
+        setTimeout(() => {
+            console.log('Tentativo di riconnessione...');
+            window.location.reload();
+        }, 5000);
+    };
+
+    // Funzione per aggiornare il peso attuale
+    function updatePesoAttuale(peso) {
+        const pesoAttualeElement = document.getElementById('pesoAttuale');
+        if (pesoAttualeElement) {
+            pesoAttualeElement.querySelector('.fw-bold').textContent = peso;
+        }
+    }
+
+    // Funzione per gestire i dati SSE
+    function handleSSEData(event) {
+        const peso = parseFloat(event.data);
+        if (!isNaN(peso)) {
+            updatePesoAttuale(peso);
+            // Aggiorna anche il valore nel campo di input
+            const pesoInput = document.getElementById('peso-manuale');
+            if (pesoInput) {
+                pesoInput.value = peso;
+            }
+        }
+    }
 </script>
-
-
-<!-- Stili aggiuntivi per l'animazione del drink -->
-<style>
-    .drink-visualization {
-        position: relative;
-        height: 200px;
-    }
-    
-    .drink-glass {
-        position: relative;
-        margin: 0 auto;
-        width: 100px;
-        height: 150px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 2px solid #ddd;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        overflow: hidden;
-    }
-    
-    #drink-liquid {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background-color: #ff9800;
-        transition: height 0.5s ease;
-    }
-    
-    .drink-face {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        transform: translateY(-50%);
-        z-index: 1;
-    }
-    
-    .eyes {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 10px;
-    }
-    
-    .eye {
-        width: 12px;
-        height: 12px;
-        background-color: #333;
-        border-radius: 50%;
-    }
-    
-    .mouth {
-        width: 30px;
-        height: 15px;
-        margin: 0 auto;
-        position: relative;
-    }
-    
-    .smile {
-        border-bottom: 3px solid #333;
-        border-radius: 0 0 30px 30px;
-    }
-    
-    .neutral {
-        border-top: 3px solid #333;
-    }
-    
-    .sad {
-        border-top: 3px solid #333;
-        border-radius: 30px 30px 0 0;
-    }
-    
-    .very-sad {
-        border-top: 5px solid #333;
-        border-radius: 30px 30px 0 0;
-    }
-</style>
 
 {% endblock %}

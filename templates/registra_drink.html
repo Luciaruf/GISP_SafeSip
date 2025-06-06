@@ -2,7 +2,236 @@
 
 {% block title %}SAFESIP - Registra Drink{% endblock %}
 
+{% block extra_css %}
+<style>
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+    }
+
+    .btn-primary {
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .alert-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .form-control:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-select:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .card-header {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        border-radius: 8px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+        border-color: var(--lavender-blue) !important;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .form-label {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .form-text {
+        color: #000;
+    }
+
+    .registra-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
+    }
+
+    .registra-title {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .registra-subtitle {
+        color: #000;
+    }
+
+    .registra-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .registra-card:hover {
+        border-color: var(--blue-gray);
+        box-shadow: 0 5px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .registra-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        border-radius: 12px 12px 0 0;
+        color: #000 !important;
+    }
+
+    .registra-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .registra-item {
+        border-left: 4px solid var(--lavender-blue);
+        transition: all 0.3s ease;
+    }
+
+    .registra-item:hover {
+        border-left-color: var(--blue-gray);
+        background-color: rgba(167, 180, 237, 0.1);
+    }
+
+    .registra-item .badge {
+        background-color: var(--golden-yellow);
+        color: #000;
+    }
+
+    .registra-item .badge.status {
+        background-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .registra-item .badge.type {
+        background-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-check-label {
+        color: #000;
+    }
+
+    .btn-outline-primary {
+        color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .btn-outline-danger {
+        color: var(--blue-gray);
+        border-color: var(--blue-gray);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--blue-gray);
+        border-color: var(--blue-gray);
+        color: #000;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
+<!-- Modal per drink esistente -->
+<div class="modal fade" id="existingDrinkModal" tabindex="-1" aria-labelledby="existingDrinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="existingDrinkModalLabel">Drink già registrato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Questo drink è già presente nel database. Selezionalo dalla sezione "Drink Standard" a destra.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container py-5">
     <div class="row">
         <!-- Form principale a sinistra -->
@@ -13,7 +242,8 @@
                         <i class="bi bi-cup-straw me-2"></i>Registra Nuovo Drink
                     </h2>
                     
-                    <form method="post" action="{{ url_for('registra_drink') }}" class="needs-validation" novalidate>
+                    <form method="post" action="{{ url_for('registra_drink') }}" class="needs-validation" novalidate id="drinkForm">
+                        <input type="hidden" id="drink_id" name="drink_id">
                         <div class="mb-3">
                             <label for="nome" class="form-label">
                                 <i class="bi bi-tag me-2"></i>Nome del Drink
@@ -28,12 +258,12 @@
                             </label>
                             <input type="number" class="form-control" id="gradazione" name="gradazione" 
                                    min="0" max="100" step="0.1" required>
-                            <div class="form-text">Inserisci la percentuale di alcol nel drink usando la virgola (es. 12,5)</div>
+                            <div class="form-text">Inserisci la percentuale di alcol nel drink usando il punto (es. 0.12)</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="ingredienti" class="form-label">
-                                <i class="bi bi-card-text me-2"></i>Ingredienti
+                                <i class="bi bi-card-text me-2"></i>Ingredienti/Descrizione
                             </label>
                             <textarea class="form-control" id="ingredienti" name="ingredienti" rows="3"></textarea>
                             <div class="form-text">Lista degli ingredienti del drink</div>
@@ -60,8 +290,14 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="submitButton">
                                 <i class="bi bi-plus-circle me-2"></i>Registra Drink
+                            </button>
+                            <button type="button" class="btn btn-success d-none" id="updateButton" onclick="updateDrink()">
+                                <i class="bi bi-save me-2"></i>Aggiorna Drink
+                            </button>
+                            <button type="button" class="btn btn-secondary d-none" id="cancelButton" onclick="resetForm()">
+                                <i class="bi bi-x-circle me-2"></i>Annulla Modifica
                             </button>
                         </div>
                     </form>
@@ -76,29 +312,26 @@
                     </h3>
                     
                     {% if drinks %}
-                    <div class="table-responsive">
+                    <!-- Drink Alcolici -->
+                    <h6 class="mt-3 mb-2 text-success">
+                        <i class="bi bi-cup-straw me-2"></i>Drink Alcolici
+                    </h6>
+                    <div class="table-responsive mb-4">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Nome</th>
                                     <th>Gradazione</th>
-                                    <th>Alcolico</th>
                                     <th>Speciale</th>
                                     <th>Azioni</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for drink in drinks %}
+                                {% if drink.fields['Alcolico (bool)'] == '1' %}
                                 <tr>
                                     <td>{{ drink.fields.Name }}</td>
-                                    <td>{{ drink.fields.Gradazione }}%</td>
-                                    <td>
-                                        {% if drink.fields['Alcolico (bool)'] == '1' %}
-                                        <span class="badge bg-success">Sì</span>
-                                        {% else %}
-                                        <span class="badge bg-secondary">No</span>
-                                        {% endif %}
-                                    </td>
+                                    <td>{{ (drink.fields.Gradazione * 100) | round(1) }}%</td>
                                     <td>
                                         {% if drink.fields['Speciale (bool)'] == '1' %}
                                         <span class="badge bg-warning">Sì</span>
@@ -107,16 +340,67 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-primary" 
+                                        {% if drink.fields['Speciale (bool)'] == '1' %}
+                                        <button class="btn btn-sm btn-outline-primary me-2" 
                                                 onclick="editDrink('{{ drink.id }}')">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-outline-danger" 
-                                                onclick="deleteDrink('{{ drink.id }}')">
+                                        {% endif %}
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                data-special="{{ 1 if drink.fields['Speciale (bool)'] == '1' else 0 }}"
+                                                onclick="deleteDrink('{{ drink.id }}', this.getAttribute('data-special'))">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Drink Analcolici -->
+                    <h6 class="mt-3 mb-2 text-success">
+                        <i class="bi bi-cup-straw me-2"></i>Drink Analcolici
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Gradazione</th>
+                                    <th>Speciale</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for drink in drinks %}
+                                {% if drink.fields['Alcolico (bool)'] == '0' %}
+                                <tr>
+                                    <td>{{ drink.fields.Name }}</td>
+                                    <td>{{ (drink.fields.Gradazione * 100) | round(1) }}%</td>
+                                    <td>
+                                        {% if drink.fields['Speciale (bool)'] == '1' %}
+                                        <span class="badge bg-warning">Sì</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">No</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if drink.fields['Speciale (bool)'] == '1' %}
+                                        <button class="btn btn-sm btn-outline-primary me-2" 
+                                                onclick="editDrink('{{ drink.id }}')">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        {% endif %}
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                data-special="{{ 1 if drink.fields['Speciale (bool)'] == '1' else 0 }}"
+                                                onclick="deleteDrink('{{ drink.id }}', this.getAttribute('data-special'))">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -140,8 +424,14 @@
                 </div>
                 <div class="card-body">
                     <div class="form-text mb-3">Seleziona i drink standard che vuoi includere nel menu</div>
-                    <div class="drinks-list">
-                        {% for drink in non_special_drinks %}
+                    
+                    <!-- Drink Alcolici -->
+                    {% if alcoholic_drinks %}
+                    <h6 class="mt-3 mb-2 text-success">
+                        <i class="bi bi-cup-straw me-2"></i>Drink Alcolici
+                    </h6>
+                    <div class="drinks-list mb-3">
+                        {% for drink in alcoholic_drinks %}
                         <div class="form-check mb-2 {% if drink.is_linked %}text-primary{% endif %}">
                             <input class="form-check-input" type="checkbox" 
                                    id="drink_{{ drink.id }}" 
@@ -149,11 +439,33 @@
                                    value="{{ drink.id }}"
                                    {% if drink.is_linked %}checked{% endif %}>
                             <label class="form-check-label" for="drink_{{ drink.id }}">
-                                {{ drink.fields.Name }} ({{ drink.fields.Gradazione }}%)
+                                {{ drink.fields.Name }}
                             </label>
                         </div>
                         {% endfor %}
                     </div>
+                    {% endif %}
+                    
+                    <!-- Drink Analcolici -->
+                    {% if non_alcoholic_drinks %}
+                    <h6 class="mt-3 mb-2 text-success">
+                        <i class="bi bi-cup-straw me-2"></i>Drink Analcolici
+                    </h6>
+                    <div class="drinks-list">
+                        {% for drink in non_alcoholic_drinks %}
+                        <div class="form-check mb-2 {% if drink.is_linked %}text-primary{% endif %}">
+                            <input class="form-check-input" type="checkbox" 
+                                   id="drink_{{ drink.id }}" 
+                                   name="selected_drinks" 
+                                   value="{{ drink.id }}"
+                                   {% if drink.is_linked %}checked{% endif %}>
+                            <label class="form-check-label" for="drink_{{ drink.id }}">
+                                {{ drink.fields.Name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -162,64 +474,186 @@
 
 {% block scripts %}
 <script>
-function editDrink(drinkId) {
-    // Implementare la logica di modifica
-    console.log('Modifica drink:', drinkId);
+// Funzione per formattare il nome del drink
+function formatDrinkName(name) {
+    return name
+        .trim()
+        .replace(/[,\s]+/g, ' ')  // Sostituisce virgole e spazi multipli con un singolo spazio
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
 
-function deleteDrink(drinkId) {
-    if (confirm('Sei sicuro di voler eliminare questo drink?')) {
-        // Implementare la logica di eliminazione
-        console.log('Elimina drink:', drinkId);
-    }
+// Funzione per verificare se il drink esiste
+function checkDrinkExists(name) {
+    return fetch('/check_drink_exists', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: name })
+    })
+    .then(response => response.json());
 }
 
-// Gestione dei drink standard
+// Funzione per aggiornare la pagina
+function refreshPage() {
+    window.location.reload();
+}
+
+// Gestione del form
 document.addEventListener('DOMContentLoaded', function() {
-    const drinkCheckboxes = document.querySelectorAll('input[name="selected_drinks"]');
-    let selectedDrinks = new Set();
+    const form = document.querySelector('form');
+    const nomeInput = document.getElementById('nome');
+    const existingDrinkModal = new bootstrap.Modal(document.getElementById('existingDrinkModal'));
 
-    // Inizializza i drink già selezionati
-    drinkCheckboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            selectedDrinks.add(checkbox.value);
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formattedName = formatDrinkName(nomeInput.value);
+        nomeInput.value = formattedName;  // Aggiorna il campo con il nome formattato
+        
+        try {
+            const response = await checkDrinkExists(formattedName);
+            if (response.exists) {
+                existingDrinkModal.show();
+                return;
+            }
+            
+            // Se il drink non esiste, procedi con l'invio del form
+            form.submit();
+            // La pagina si aggiornerà automaticamente dopo il submit
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Si è verificato un errore durante la verifica del drink');
         }
     });
 
+    // Gestione dei checkbox dei drink standard
+    const drinkCheckboxes = document.querySelectorAll('input[name="selected_drinks"]');
     drinkCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                selectedDrinks.add(this.value);
-            } else {
-                selectedDrinks.delete(this.value);
-            }
+        checkbox.addEventListener('change', async function() {
+            const selectedDrinks = Array.from(drinkCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
             
-            // Invia i drink selezionati al backend
-            fetch('/link_drinks_to_bar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    drink_ids: Array.from(selectedDrinks)
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Ricarica la pagina per mostrare i drink aggiornati
-                    window.location.reload();
+            try {
+                const response = await fetch('/link_drinks_to_bar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ drink_ids: selectedDrinks })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    refreshPage(); // Aggiorna la pagina dopo il successo
                 } else {
-                    alert('Errore durante il collegamento dei drink: ' + data.error);
+                    alert('Errore durante l\'aggiornamento dei drink: ' + result.error);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error:', error);
-                alert('Si è verificato un errore durante il collegamento dei drink');
-            });
+                alert('Si è verificato un errore durante l\'aggiornamento dei drink');
+            }
         });
     });
 });
+
+// Funzione per eliminare un drink
+async function deleteDrink(drinkId, isSpecial) {
+    if (!confirm('Sei sicuro di voler eliminare questo drink?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/delete_drink/${drinkId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            refreshPage(); // Aggiorna la pagina dopo l'eliminazione
+        } else {
+            alert('Errore durante l\'eliminazione del drink: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Si è verificato un errore durante l\'eliminazione del drink');
+    }
+}
+
+// Funzione per modificare un drink
+async function editDrink(drinkId) {
+    try {
+        const response = await fetch(`/get_drink_details/${drinkId}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            const drink = result.drink;
+            document.getElementById('drink_id').value = drink.id;
+            document.getElementById('nome').value = drink.name;
+            document.getElementById('gradazione').value = drink.gradazione;
+            document.getElementById('ingredienti').value = drink.ingredienti;
+            document.getElementById('alcolico').checked = drink.alcolico;
+            document.getElementById('speciale').checked = drink.speciale;
+            
+            // Mostra i pulsanti di aggiornamento
+            document.getElementById('submitButton').classList.add('d-none');
+            document.getElementById('updateButton').classList.remove('d-none');
+            document.getElementById('cancelButton').classList.remove('d-none');
+        } else {
+            alert('Errore nel recupero dei dettagli del drink: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Si è verificato un errore durante il recupero dei dettagli del drink');
+    }
+}
+
+// Funzione per aggiornare un drink
+async function updateDrink() {
+    const drinkId = document.getElementById('drink_id').value;
+    const drinkData = {
+        nome: document.getElementById('nome').value,
+        gradazione: document.getElementById('gradazione').value,
+        ingredienti: document.getElementById('ingredienti').value,
+        alcolico: document.getElementById('alcolico').checked,
+        speciale: document.getElementById('speciale').checked
+    };
+    
+    try {
+        const response = await fetch(`/update_drink/${drinkId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(drinkData)
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            refreshPage(); // Aggiorna la pagina dopo l'aggiornamento
+        } else {
+            alert('Errore durante l\'aggiornamento del drink: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Si è verificato un errore durante l\'aggiornamento del drink');
+    }
+}
+
+// Funzione per resettare il form
+function resetForm() {
+    document.getElementById('drink_id').value = '';
+    document.getElementById('drinkForm').reset();
+    document.getElementById('submitButton').classList.remove('d-none');
+    document.getElementById('updateButton').classList.add('d-none');
+    document.getElementById('cancelButton').classList.add('d-none');
+}
 </script>
 {% endblock %}
 

@@ -1,176 +1,354 @@
 {% extends "base.html" %}
 
-{% block title %}SAFESIP - Il primo sottobicchiere smart{% endblock %}
+{% block title %}SAFESIP - Home{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
-        --primary-pastel: #A8D8EA;
-        --secondary-pastel: #AA96DA;
-        --accent-pastel: #FCBAD3;
-        --light-pastel: #FFFFD2;
-        --text-color: #2C3E50;
-    }
-
-    body {
-        font-family: 'Montserrat', sans-serif;
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
     }
 
     .hero-section {
-        background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
-        padding: 100px 0;
-        margin-bottom: 60px;
-        color: var(--text-color);
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #fff;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 0 4rem 4rem;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('/static/images/pattern.png') repeat;
+        opacity: 0.1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
     }
 
     .hero-title {
         font-size: 3.5rem;
-        font-weight: 700;
+        font-weight: 800;
         margin-bottom: 1.5rem;
-        line-height: 1.2;
-        font-family: 'Montserrat', sans-serif;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
 
     .hero-subtitle {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         margin-bottom: 2rem;
-        opacity: 0.9;
-        font-weight: 400;
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
 
     .feature-card {
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease;
-        border: none;
+        background: #fff;
+        border-radius: 3rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        border: 2px solid var(--lavender-blue);
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
     }
 
     .feature-card:hover {
         transform: translateY(-5px);
-    }
-
-    .feature-card h3 {
-        font-weight: 600;
-        margin: 1rem 0;
-    }
-
-    .feature-card p {
-        font-weight: 400;
-        color: #666;
+        box-shadow: 0 8px 15px rgba(167, 180, 237, 0.2);
     }
 
     .feature-icon {
         font-size: 2.5rem;
-        margin-bottom: 20px;
-        color: var(--secondary-pastel);
+        color: var(--golden-yellow);
+        margin-bottom: 1.5rem;
     }
 
-    .cta-section {
-        background: var(--light-pastel);
-        padding: 80px 0;
-        margin: 60px 0;
-        border-radius: 30px;
-    }
-
-    .bar-card {
-        background: white;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease;
-        border: none;
-        margin-bottom: 30px;
-    }
-
-    .bar-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .bar-card .card-body {
-        padding: 25px;
-    }
-
-    .bar-card .card-title {
-        font-weight: 600;
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 700;
         margin-bottom: 1rem;
+        color: #000;
     }
 
-    .bar-card .card-text {
-        font-weight: 400;
-        color: #666;
+    .feature-text {
+        color: #000;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .btn {
+        border-radius: 2rem;
+        transition: all 0.3s ease;
+        color: #000;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
     .btn-primary {
-        background: var(--secondary-pastel);
-        border: none;
-        padding: 12px 30px;
-        border-radius: 30px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        font-family: 'Montserrat', sans-serif;
+        background-color: var(--golden-yellow) !important;
+        border-color: var(--golden-yellow) !important;
+        color: #000 !important;
     }
 
     .btn-primary:hover {
-        background: var(--primary-pastel);
-        transform: translateY(-2px);
+        background-color: #e6c05f !important;
+        border-color: #e6c05f !important;
+        color: #000 !important;
+    }
+
+    .btn-outline-primary {
+        color: #fff;
+        border-color: #fff;
+        background: transparent;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #fff;
+        border-color: #fff;
+        color: var(--blue-gray);
+    }
+
+    .btn-partner {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #fff !important;
+    }
+
+    .btn-partner:hover {
+        background-color: #5a7296 !important;
+        border-color: #5a7296 !important;
+        color: #fff !important;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .section-title {
-        color: var(--text-color);
+        font-size: 2.5rem;
         font-weight: 700;
-        margin-bottom: 40px;
-        position: relative;
-        padding-bottom: 15px;
-        font-family: 'Montserrat', sans-serif;
+        margin-bottom: 3rem;
+        color: #000;
+        text-align: center;
     }
 
-    .section-title::after {
+    .section-subtitle {
+        font-size: 1.25rem;
+        color: #000;
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .cta-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        padding: 5rem 0;
+        color: #fff;
+        text-align: center;
+        border-radius: 4rem 4rem 0 0;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .cta-text {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .testimonial-card {
+        background: #fff;
+        border-radius: 3rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 2px solid var(--lavender-blue);
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem;
+        color: #000;
+        margin-bottom: 1.5rem;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        font-weight: 600;
+        color: #000;
+    }
+
+    .testimonial-role {
+        color: var(--blue-gray);
+        font-size: 0.9rem;
+    }
+
+    .features-section {
+        padding: 5rem 0;
+        background: #f8f9fa;
+        border-radius: 4rem;
+        margin: 2rem 0;
+    }
+
+    .testimonials-section {
+        padding: 5rem 0;
+        background: #fff;
+        border-radius: 4rem;
+        margin: 2rem 0;
+    }
+
+    .partner-section {
+        background: linear-gradient(135deg, var(--blue-gray), var(--lavender-blue));
+        padding: 4rem 0;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4rem;
+        margin: 3rem 0;
+    }
+
+    .partner-section::before {
         content: '';
         position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
         bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: var(--accent-pastel);
+        background: url('/static/images/pattern.png') repeat;
+        opacity: 0.1;
     }
 
-    .lead {
-        font-weight: 400;
-        font-size: 1.2rem;
+    .partner-content {
+        position: relative;
+        z-index: 1;
     }
 
-    @media (max-width: 991.98px) {
-        .hero-section {
-            padding: 40px 0 30px 0;
-            text-align: center;
-        }
+    .partner-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .partner-text {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .partner-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 3rem;
+        padding: 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .partner-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    .partner-icon {
+        font-size: 3rem;
+        color: var(--golden-yellow);
+        margin-bottom: 1.5rem;
+    }
+
+    .partner-benefits {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .partner-benefits li {
+        color: #fff;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .partner-benefits li i {
+        color: var(--golden-yellow);
+    }
+
+    @media (max-width: 768px) {
         .hero-title {
-            font-size: 2.1rem;
+            font-size: 2.5rem;
         }
+
         .hero-subtitle {
             font-size: 1.1rem;
         }
-        .hero-img-mobile {
-            margin-top: 30px;
-            max-width: 80vw;
-        }
-        .d-flex.gap-3 {
-            flex-direction: column !important;
-            gap: 1rem !important;
-            align-items: center;
-        }
-    }
-    @media (max-width: 767.98px) {
-        .feature-card, .bar-card {
-            padding: 18px !important;
-        }
+
         .section-title {
-            font-size: 1.3rem;
+            font-size: 2rem;
+        }
+
+        .feature-card {
+            margin-bottom: 2rem;
+        }
+
+        .hero-section, .cta-section {
+            border-radius: 3rem;
+        }
+
+        .features-section, .testimonials-section {
+            border-radius: 3rem;
+        }
+
+        .hero-buttons, .cta-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .hero-buttons .btn, .cta-buttons .btn {
+            width: 100%;
+        }
+
+        .partner-section {
+            border-radius: 3rem;
+            padding: 3rem 0;
+        }
+
+        .partner-title {
+            font-size: 2rem;
+        }
+
+        .partner-text {
+            font-size: 1.1rem;
         }
     }
 </style>
@@ -181,90 +359,144 @@
     <section class="hero-section">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6">
+            <div class="col-lg-6 hero-content">
                     <h1 class="hero-title">Bevi Responsabilmente con SAFESIP</h1>
-                    <p class="hero-subtitle">Il primo sottobicchiere smart che ti aiuta a monitorare il tuo consumo di alcol in tempo reale.</p>
-                    <div class="d-flex gap-3">
-                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Inizia Ora</a>
-                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">Scopri di più</a>
+                <p class="hero-subtitle">Monitora il tuo consumo di alcolici in modo intelligente e sicuro. SAFESIP ti aiuta a mantenere il controllo e a divertirti in sicurezza.</p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('nuovo_drink') }}" class="btn btn-primary btn-lg">Inizia a Bere</a>
+                    <a href="#features" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-info-circle me-2"></i>Scopri di Più
+                    </a>
                     </div>
                 </div>
-                <div class="col-lg-6 text-center mt-4 mt-lg-0">
-                    <img src="{{ url_for('static', filename='safesip-hero.png') }}" alt="Illustrazione di una donna che beve con SAFESIP, il primo sottobicchiere smart in Italia" class="img-fluid rounded-4 shadow-lg hero-img-mobile" style="max-width: 100%; height: auto;">
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{{ url_for('static', filename='images/Prototipo SafeSip.png') }}" alt="SAFESIP Prototype" class="img-fluid rounded-5 shadow">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="container mb-5" id="how-it-works">
-        <h2 class="section-title text-center">Come Funziona</h2>
-        <div class="row">
+<section class="features-section" id="features">
+    <div class="container">
+        <h2 class="section-title">Perché Scegliere SAFESIP?</h2>
+        <p class="section-subtitle">Scopri come SAFESIP può aiutarti a bere responsabilmente</p>
+        
+        <div class="row g-4">
             <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <i class="bi bi-cup-hot feature-icon"></i>
-                    <h3>Posiziona</h3>
-                    <p>Appoggia il tuo drink sul sottobicchiere SAFESIP e inizia a bere in sicurezza.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <i class="bi bi-phone feature-icon"></i>
-                    <h3>Monitora</h3>
-                    <p>Controlla in tempo reale il tuo tasso alcolemico stimato direttamente dall'app.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <i class="bi bi-shield-check feature-icon"></i>
-                    <h3>Guidi Sicuro</h3>
-                    <p>Ricevi avvisi quando è il momento di fermarti o chiamare un taxi.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 text-center">
-                    <h2 class="section-title">Unisciti alla Rivoluzione SAFESIP</h2>
-                    <p class="lead mb-4">Scegli se diventare partner o utilizzare il servizio come consumatore.</p>
-                    <div class="d-flex justify-content-center gap-4">
-                        {% if not session.user %}
-                            <a href="{{ url_for('partner') }}" class="btn btn-primary btn-lg">
-                                <i class="bi bi-building"></i> Diventa Partner
-                            </a>
-                        {% endif %}
-                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
-                            <i class="bi bi-person-plus"></i> Registrati
-                        </a>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
                     </div>
+                    <h3 class="feature-title">Monitoraggio in Tempo Reale</h3>
+                    <p class="feature-text">Tieni traccia del tuo tasso alcolemico in tempo reale e ricevi avvisi quando ti avvicini al limite legale.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <h3 class="feature-title">Statistiche Dettagliate</h3>
+                    <p class="feature-text">Visualizza le tue statistiche di consumo e ottieni suggerimenti personalizzati per bere in modo più responsabile.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-trophy"></i>
+                    </div>
+                    <h3 class="feature-title">Sistema di Gamification</h3>
+                    <p class="feature-text">Guadagna punti e sblocca trofei mentre impari a bere responsabilmente. Rendi l'esperienza divertente e coinvolgente.</p>
+                </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bars Section -->
-    <section class="container mb-5">
-        <h2 class="section-title text-center">Bar Convenzionati</h2>
+<!-- Partner Section -->
+{% if not is_authenticated %}
+<section class="partner-section" id="partner">
+        <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 partner-content">
+                <h2 class="partner-title">Diventa Partner di SAFESIP</h2>
+                <p class="partner-text">Unisciti alla nostra rete di partner e contribuisci a promuovere il consumo responsabile di alcolici.</p>
+                <div class="partner-card">
+                    <div class="partner-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <ul class="partner-benefits">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Visibilità nel tuo locale
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Accesso a statistiche dettagliate
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Supporto tecnico dedicato
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Programma di fidelizzazione clienti
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{{ url_for('static', filename='images/image.png') }}" alt="SAFESIP Partner" class="img-fluid rounded-5 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title">Cosa Dicono gli Utenti</h2>
+        <p class="section-subtitle">Scopri le esperienze di chi usa SAFESIP</p>
+        
         <div class="row">
-            {% for bar in bars %}
-                {% if bar.fields %}
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"SAFESIP mi ha aiutato a prendere consapevolezza del mio consumo di alcolici. Ora bevo in modo più responsabile."</p>
+                    <div class="testimonial-author">Marco Rossi</div>
+                    <div class="testimonial-role">Utente dal 2023</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"L'interfaccia è intuitiva e le funzionalità sono davvero utili. Mi sento più sicuro quando esco con gli amici."</p>
+                    <div class="testimonial-author">Laura Bianchi</div>
+                    <div class="testimonial-role">Utente dal 2023</div>
+                </div>
+            </div>
                     <div class="col-md-4">
-                        <div class="bar-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ bar.fields.Name }}</h5>
-                                <p class="card-text">
-                                    <i class="bi bi-geo-alt"></i> {{ bar.fields.Indirizzo }}<br>
-                                    <i class="bi bi-building"></i> {{ bar.fields.Città }}
-                                </p>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Il sistema di gamification è geniale! Mi motiva a mantenere abitudini di consumo responsabili."</p>
+                    <div class="testimonial-author">Giovanni Verdi</div>
+                    <div class="testimonial-role">Utente dal 2023</div>
+                </div>
                             </div>
                         </div>
                     </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Pronto a Iniziare?</h2>
+        <p class="cta-text">Unisciti a SAFESIP e inizia a bere responsabilmente oggi stesso.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('nuovo_drink') }}" class="btn btn-primary btn-lg">Inizia a Bere</a>
+            {% if not is_authenticated %}
+            <a href="{{ url_for('partner') }}" class="btn btn-partner btn-lg">Diventa Partner</a>
                 {% endif %}
-            {% endfor %}
+        </div>
         </div>
     </section>
 {% endblock %}

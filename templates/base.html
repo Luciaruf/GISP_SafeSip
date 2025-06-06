@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
    
     <!-- Custom CSS -->
     <style>
@@ -17,6 +18,9 @@
             --accent-pastel: #FCBAD3;
             --light-pastel: #FFFFD2;
             --text-color: #2C3E50;
+            --lavender-blue: #A7B4ED;
+            --golden-yellow: #FFD569;
+            --blue-gray: #6E8AB7;
         }
 
         body {
@@ -65,37 +69,237 @@
 
         .navbar-brand {
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+
         .footer {
             margin-top: 2rem;
             padding: 1rem 0;
             background-color: #f8f9fa;
         }
+
         .bar-header {
             background-color: #f8f9fa;
             padding: 10px 0;
             border-bottom: 1px solid #dee2e6;
         }
+
         .bar-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .bar-info {
             font-size: 1.1em;
             color: #495057;
         }
+
         .bar-info i {
             margin-right: 5px;
+        }
+
+        /* Bottoni personalizzati */
+        .btn-lavender {
+            background-color: var(--lavender-blue);
+            border-color: var(--lavender-blue);
+            color: #fff;
+        }
+        .btn-lavender:hover {
+            background-color: #8f9fd8;
+            border-color: #8f9fd8;
+            color: #fff;
+        }
+
+        .btn-golden {
+            background-color: var(--golden-yellow);
+            border-color: var(--golden-yellow);
+            color: #000;
+        }
+        .btn-golden:hover {
+            background-color: #e6c05f;
+            border-color: #e6c05f;
+            color: #000;
+        }
+
+        .btn-blue-gray {
+            background-color: var(--blue-gray);
+            border-color: var(--blue-gray);
+            color: #fff;
+        }
+        .btn-blue-gray:hover {
+            background-color: #5d7aa3;
+            border-color: #5d7aa3;
+            color: #fff;
+        }
+
+        /* Sfondi personalizzati */
+        .bg-lavender {
+            background-color: var(--lavender-blue) !important;
+        }
+
+        .bg-golden {
+            background-color: var(--golden-yellow) !important;
+        }
+
+        .bg-blue-gray {
+            background-color: var(--blue-gray) !important;
+        }
+
+        /* Testi personalizzati */
+        .text-lavender {
+            color: var(--lavender-blue) !important;
+        }
+
+        .text-golden {
+            color: var(--golden-yellow) !important;
+        }
+
+        .text-blue-gray {
+            color: var(--blue-gray) !important;
+        }
+
+        /* Bordi personalizzati */
+        .border-lavender {
+            border-color: var(--lavender-blue) !important;
+        }
+
+        .border-golden {
+            border-color: var(--golden-yellow) !important;
+        }
+
+        .border-blue-gray {
+            border-color: var(--blue-gray) !important;
+        }
+
+        /* Navbar personalizzata */
+        .navbar-custom {
+            background-color: var(--blue-gray);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: var(--golden-yellow);
+        }
+
+        /* Card personalizzate */
+        .card-header-custom {
+            background-color: var(--blue-gray);
+            color: #fff;
+        }
+
+        /* Alert personalizzati */
+        .alert-lavender {
+            background-color: var(--lavender-blue);
+            border-color: var(--lavender-blue);
+            color: #fff;
+        }
+
+        .alert-golden {
+            background-color: var(--golden-yellow);
+            border-color: var(--golden-yellow);
+            color: #000;
+        }
+
+        .alert-blue-gray {
+            background-color: var(--blue-gray);
+            border-color: var(--blue-gray);
+            color: #fff;
+        }
+
+        /* Progress bar personalizzata */
+        .progress-bar-custom {
+            background-color: var(--lavender-blue);
+        }
+
+        /* Footer personalizzato */
+        .footer-custom {
+            background-color: var(--blue-gray);
+            color: #fff;
+        }
+
+        /* Link personalizzati */
+        .custom-link {
+            color: var(--blue-gray);
+        }
+        .custom-link:hover {
+            color: var(--lavender-blue);
+        }
+
+        /* Override dei colori di Bootstrap */
+        .btn-primary {
+            background-color: var(--lavender-blue) !important;
+            border-color: var(--lavender-blue) !important;
+        }
+        .btn-primary:hover {
+            background-color: #8f9fd8 !important;
+            border-color: #8f9fd8 !important;
+        }
+
+        .btn-warning {
+            background-color: var(--golden-yellow) !important;
+            border-color: var(--golden-yellow) !important;
+            color: #000 !important;
+        }
+        .btn-warning:hover {
+            background-color: #e6c05f !important;
+            border-color: #e6c05f !important;
+            color: #000 !important;
+        }
+
+        .btn-secondary {
+            background-color: var(--blue-gray) !important;
+            border-color: var(--blue-gray) !important;
+        }
+        .btn-secondary:hover {
+            background-color: #5d7aa3 !important;
+            border-color: #5d7aa3 !important;
+        }
+
+        .bg-primary {
+            background-color: var(--lavender-blue) !important;
+        }
+
+        .bg-warning {
+            background-color: var(--golden-yellow) !important;
+        }
+
+        .bg-secondary {
+            background-color: var(--blue-gray) !important;
+        }
+
+        .text-primary {
+            color: var(--lavender-blue) !important;
+        }
+
+        .text-warning {
+            color: var(--golden-yellow) !important;
+        }
+
+        .text-secondary {
+            color: var(--blue-gray) !important;
         }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('home') }}">SAFESIP</a>
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="fas fa-cocktail me-2"></i>SAFESIP
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -109,6 +313,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('registra_drink') }}">
                                     <i class="bi bi-cup-straw"></i> Registra Drink
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('statistica') }}">
+                                    <i class="bi bi-bar-chart-fill"></i> Statistiche
                                 </a>
                             </li>
                         {% else %}
@@ -172,7 +381,7 @@
 
     <!-- Main Content -->
     <main class="container py-4">
-        {% if session.get('user') %}
+        {% if session.get('user') and session.get('user_type') != 'locale' %}
         <div class="bar-header">
             <div class="container">
                 <div class="bar-info">
@@ -184,11 +393,6 @@
                         <span class="text-muted">Nessun bar selezionato</span>
                     {% endif %}
                 </div>
-                {% if session.get('bar_id') %}
-                    <a href="{{ url_for('nuovo_drink') }}" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-arrow-repeat"></i> Cambia Bar
-                    </a>
-                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -197,7 +401,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer-custom py-3 mt-auto">
         <div class="container text-center">
             <p class="mb-0">SAFESIP Disclaimer legale: Non sostituisce un etilometro. Non guidare se hai bevuto.</p>
         </div>

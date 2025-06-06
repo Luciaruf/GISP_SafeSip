@@ -4,6 +4,29 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
+    }
+
+    /* Set all text to black by default */
+    .world-stats-card,
+    .leaderboard-card,
+    .leaderboard-header,
+    .leaderboard-item,
+    .stats-label,
+    .stats-number,
+    .text-muted,
+    .text-white,
+    .text-dark,
+    .text-blue-gray,
+    .lead,
+    h1, h2, h3, h4, h5, h6,
+    p, span, strong, small {
+        color: #000 !important;
+    }
+
     .leaderboard-card {
         border-radius: 10px;
         transition: transform 0.3s;
@@ -18,7 +41,6 @@
     
     .leaderboard-header {
         padding: 15px;
-        color: white;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
@@ -46,18 +68,15 @@
     }
     
     .rank-1 {
-        background-color: gold;
-        color: #333;
+        background-color: var(--golden-yellow);
     }
     
     .rank-2 {
-        background-color: silver;
-        color: #333;
+        background-color: var(--lavender-blue);
     }
     
     .rank-3 {
-        background-color: #cd7f32; /* bronze */
-        color: white;
+        background-color: var(--blue-gray);
     }
     
     .world-stats-card {
@@ -81,7 +100,6 @@
     }
     
     .stats-label {
-        color: #666;
         text-transform: uppercase;
         font-size: 0.8rem;
         letter-spacing: 1px;
@@ -104,41 +122,53 @@
         transform: translate(-50%, -50%);
         text-align: center;
     }
+
+    .bg-lavender {
+        background-color: var(--lavender-blue) !important;
+    }
+
+    .bg-golden {
+        background-color: var(--golden-yellow) !important;
+    }
+
+    .bg-blue-gray {
+        background-color: var(--blue-gray) !important;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4 mb-5">
     <div class="text-center mb-4">
-        <h1 class="display-4"><i class="bi bi-globe"></i> SAFESIP World</h1>
+        <h1 class="display-4 text-blue-gray"><i class="bi bi-globe"></i> SAFESIP World</h1>
         <p class="lead">Scopri le classifiche globali e le statistiche dal mondo di SAFESIP</p>
     </div>
     
     <!-- Statistiche globali -->
     <div class="row mb-5">
         <div class="col-md-3 mb-3">
-            <div class="world-stats-card bg-primary text-white">
+            <div class="world-stats-card bg-lavender text-white">
                 <i class="bi bi-people-fill stats-icon"></i>
                 <span class="stats-number">{{ classifica|length }}</span>
                 <span class="stats-label">Utenti Attivi</span>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="world-stats-card bg-success text-white">
+            <div class="world-stats-card bg-golden text-dark">
                 <i class="bi bi-cup-fill stats-icon"></i>
                 <span class="stats-number">{{ totale_consumazioni }}</span>
                 <span class="stats-label">Drink Consumati</span>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="world-stats-card bg-warning text-dark">
+            <div class="world-stats-card bg-blue-gray text-white">
                 <i class="bi bi-shop stats-icon"></i>
                 <span class="stats-number">{{ num_bar }}</span>
                 <span class="stats-label">Bar Registrati</span>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="world-stats-card bg-danger text-white">
+            <div class="world-stats-card bg-lavender text-white">
                 <i class="bi bi-droplet-fill stats-icon"></i>
                 <span class="stats-number">{{ totale_sorsi }}</span>
                 <span class="stats-label">Sorsi Registrati</span>
@@ -151,7 +181,7 @@
         <!-- Top Users -->
         <div class="col-lg-4 mb-4">
             <div class="leaderboard-card">
-                <div class="leaderboard-header bg-primary">
+                <div class="leaderboard-header bg-lavender">
                     <h3 class="mb-0"><i class="bi bi-trophy"></i> Top Bevitori</h3>
                 </div>
                 <div class="card-body p-0">
@@ -179,7 +209,7 @@
         <!-- Top Drinks -->
         <div class="col-lg-4 mb-4">
             <div class="leaderboard-card">
-                <div class="leaderboard-header bg-success">
+                <div class="leaderboard-header bg-golden">
                     <h3 class="mb-0"><i class="bi bi-cup-straw"></i> Drink Più Popolari</h3>
                 </div>
                 <div class="card-body p-0">
@@ -207,7 +237,7 @@
         <!-- Top Bars -->
         <div class="col-lg-4 mb-4">
             <div class="leaderboard-card">
-                <div class="leaderboard-header bg-danger">
+                <div class="leaderboard-header bg-blue-gray">
                     <h3 class="mb-0"><i class="bi bi-shop"></i> Bar Più Frequentati</h3>
                 </div>
                 <div class="card-body p-0">
@@ -235,7 +265,7 @@
     
     <!-- Le tue statistiche -->
     <div class="card mt-4">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header bg-blue-gray text-white">
             <h3 class="mb-0">Le Tue Statistiche Globali</h3>
         </div>
         <div class="card-body">
@@ -244,7 +274,7 @@
                     <div class="card text-center h-100">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-clipboard-data"></i> Tue Consumazioni</h5>
-                            <p class="display-5 fw-bold text-primary">{{ num_consumazioni_utente }}</p>
+                            <p class="display-5 fw-bold text-lavender">{{ num_consumazioni_utente }}</p>
                         </div>
                     </div>
                 </div>

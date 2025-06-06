@@ -1,185 +1,386 @@
 {% extends "base.html" %}
 
-{% block title %}SAFESIP - Drink Master Game{% endblock %}
+{% block title %}SAFESIP - Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
+    }
+
+    .game-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
+    }
+
+    .game-title {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .game-subtitle {
+        color: #000;
+    }
+
+    .game-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+        overflow: hidden;
+    }
+
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .game-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray)) !important;
+        color: #000 !important;
+        border-radius: 12px 12px 0 0;
+        border-bottom: 2px solid rgba(167, 180, 237, 0.2);
+        padding: 1rem 1.25rem;
+    }
+
+    .game-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .game-card .card-footer {
+        background: transparent;
+        border-top: 1px solid rgba(167, 180, 237, 0.2);
+        padding: 1rem;
+    }
+
+    .game-stats {
+        background-color: rgba(167, 180, 237, 0.1);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .game-stats .stat-value {
+        color: var(--golden-yellow);
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .game-stats .stat-label {
+        color: #000;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .game-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+    }
+
+    .game-actions .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .game-list {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 1rem;
+    }
+
+    .game-item {
+        border-left: 4px solid var(--lavender-blue);
+        transition: all 0.3s ease;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .game-item:hover {
+        border-left-color: var(--blue-gray);
+        background-color: rgba(167, 180, 237, 0.1);
+        transform: translateX(5px);
+    }
+
+    .game-item .badge {
+        background-color: var(--golden-yellow);
+        color: #000;
+    }
+
+    .game-item .badge.status {
+        background-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .game-item .badge.type {
+        background-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+        font-weight: 500;
+        padding: 0.5rem 1.25rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary {
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        border-radius: 8px;
+        padding: 0.5em 0.8em;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .page-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+    }
+
+    .page-header h1 {
+        color: #000;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .page-header .btn {
+        font-size: 1.1rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .game-grid-item {
+        background: #fff;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .game-grid-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .game-grid-item h3 {
+        color: #000;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .game-grid-item p {
+        color: #000;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .game-grid-item .btn {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+
+        .page-header .btn {
+            margin-top: 1rem;
+        }
+
+        .game-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <!-- User Profile Card -->
-    <div class="row mb-4">
+<div class="container-fluid px-4">
+    <!-- Header della pagina -->
+    <div class="page-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-4 fw-bold">Game</h1>
+                <a href="/nuovo_drink" class="btn btn-primary btn-lg">
+                    <i class="bi bi-cup-hot me-2"></i>Nuovo Drink
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Sezione statistiche -->
+        <div class="game-stats">
+            <div class="row">
         <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body text-center">
-                    <div class="mb-3">
-                        <i class="bi bi-person-circle display-1 text-primary"></i>
+                    <div class="stat-value">{{ game_data.achievements.safe_driver.progress if game_data and game_data.achievements else 0 }}</div>
+                    <div class="stat-label">Drink Completati</div>
                     </div>
-                    <h3 class="card-title h4">{{ user.fields.Email if user and user.fields else 'Drink Master' }}</h3>
-                    <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                        <span class="badge bg-primary rounded-pill">Level {{ game_data.level }}</span>
-                        <span class="badge bg-warning text-dark rounded-pill">
-                            <i class="bi bi-star-fill"></i> {{ game_data.points }} Points
-                        </span>
+                <div class="col-md-4">
+                    <div class="stat-value">{{ game_data.points if game_data else 0 }}</div>
+                    <div class="stat-label">Punti Totali</div>
                     </div>
-                    <div class="progress mb-2" style="height: 8px;">
-                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
-                             role="progressbar" 
-                             aria-valuenow="{{ game_data.xp }}" 
-                             aria-valuemin="0" 
-                             aria-valuemax="100"
-                             data-width="{{ game_data.xp }}"></div>
-                    </div>
-                    <small class="text-muted">{{ game_data.xp }}/100 XP to next level</small>
+                <div class="col-md-4">
+                    <div class="stat-value">{{ game_data.level if game_data else 1 }}</div>
+                    <div class="stat-label">Livello</div>
                 </div>
             </div>
         </div>
 
-        <!-- Achievements Section -->
-        <div class="col-md-8">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Your Achievements</h4>
-                    <div class="row g-4">
+        <!-- Sezione obiettivi -->
+        <div class="game-grid">
+            {% if game_data and game_data.achievements %}
                         {% set achievements = [
-                            ('safe_driver', 'trophy-fill', 'warning', 'Safe Driver', 'Complete {total} safe drinking sessions'),
-                            ('mix_master', 'cup-hot-fill', 'danger', 'Mix Master', 'Try {total} different drinks'),
-                            ('time_keeper', 'clock-history', 'info', 'Time Keeper', 'Track {total} drinking sessions')
+                    ('safe_driver', 'trophy-fill', 'Safe Driver', 'Completa {total} sessioni di consumo responsabile'),
+                    ('mix_master', 'cup-hot-fill', 'Mix Master', 'Prova {total} drink diversi'),
+                    ('time_keeper', 'clock-history', 'Time Keeper', 'Monitora {total} sessioni di consumo')
                         ] %}
                         
-                        {% for achievement_id, icon, color, title, description in achievements %}
-                        <div class="col-md-4">
-                            <div class="achievement-card text-center p-3 border rounded h-100">
-                                <i class="bi bi-{{ icon }} text-{{ color }} display-4 mb-3"></i>
-                                <h5 class="h6 mb-2">{{ title }}</h5>
-                                <p class="small text-muted mb-3">{{ description.format(total=game_data.achievements[achievement_id].total) }}</p>
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-success progress-bar-striped" 
+                {% for achievement_id, icon, title, description in achievements %}
+                    <div class="game-grid-item">
+                        <h3><i class="bi bi-{{ icon }} me-2"></i>{{ title }}</h3>
+                        <p>{{ description.format(total=game_data.achievements[achievement_id].total) }}</p>
+                        <div class="progress mb-3" style="height: 25px;">
+                            <div class="progress-bar 
+                                {% if game_data.achievements[achievement_id].progress >= game_data.achievements[achievement_id].total %}
+                                    bg-success
+                                {% else %}
+                                    bg-primary
+                                {% endif %}"
                                          role="progressbar" 
-                                         aria-valuenow="{{ game_data.achievements[achievement_id].progress }}" 
+                                aria-valuenow="{{ (game_data.achievements[achievement_id].progress / game_data.achievements[achievement_id].total * 100)|round }}"
                                          aria-valuemin="0" 
-                                         aria-valuemax="{{ game_data.achievements[achievement_id].total }}"
-                                         data-width="{{ (game_data.achievements[achievement_id].progress / game_data.achievements[achievement_id].total * 100)|round }}"></div>
-                                </div>
-                                <small class="text-muted">{{ game_data.achievements[achievement_id].progress }}/{{ game_data.achievements[achievement_id].total }}</small>
+                                aria-valuemax="100"
+                                data-width="{{ (game_data.achievements[achievement_id].progress / game_data.achievements[achievement_id].total * 100)|round }}">
+                                {{ (game_data.achievements[achievement_id].progress / game_data.achievements[achievement_id].total * 100)|round }}%
                             </div>
+                        </div>
+                        {% if game_data.achievements[achievement_id].progress >= game_data.achievements[achievement_id].total %}
+                            <span class="badge bg-success">Completato</span>
+                        {% else %}
+                            <span class="badge bg-primary">In corso</span>
+                        {% endif %}
                         </div>
                         {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-primary">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Non ci sono ancora obiettivi disponibili. Inizia a bere responsabilmente!
                     </div>
                 </div>
+            {% endif %}
+        </div>
+
+        <!-- Sezione trofei -->
+        <div class="card game-card">
+            <div class="card-header">
+                <h5 class="mb-0 fw-bold">I tuoi trofei</h5>
             </div>
+            <div class="card-body">
+                {% if game_data and game_data.achievements %}
+                    <div class="row g-4">
+                        {% for achievement_id, icon, title, description in achievements %}
+                            {% if game_data.achievements[achievement_id].progress >= game_data.achievements[achievement_id].total %}
+                                <div class="col-md-4">
+                                    <div class="game-item">
+                                        <h5 class="mb-2"><i class="bi bi-{{ icon }} me-2"></i>{{ title }}</h5>
+                                        <p class="mb-2">{{ description.format(total=game_data.achievements[achievement_id].total) }}</p>
+                                        <span class="badge bg-primary">Conseguito</span>
+        </div>
+    </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-primary">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Non hai ancora conquistato nessun trofeo. Continua a bere responsabilmente!
+                    </div>
+                {% endif %}
         </div>
     </div>
 
-    <!-- Daily Challenge -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="card-title mb-0">Daily Challenge</h4>
-                        <span class="badge bg-primary rounded-pill">+50 Points</span>
-                    </div>
-                    <div class="challenge-card p-4 bg-light rounded">
-                        <h5 class="h6 mb-3">Responsible Drinking Streak</h5>
-                        <p class="mb-4">Complete {{ game_data.daily_challenge.total_sessions }} safe drinking sessions today to earn bonus points!</p>
-                        <div class="d-flex gap-3">
-                            {% for i in range(game_data.daily_challenge.total_sessions) %}
-                            <div class="challenge-step p-3 border rounded text-center flex-grow-1">
-                                <i class="bi bi-{{ 'check-circle-fill text-success' if i < game_data.daily_challenge.completed_sessions else 'circle text-muted' }} fs-4"></i>
-                                <span class="d-block small mt-2">Session {{ i + 1 }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Leaderboard -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Top Drink Masters</h4>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>Level</th>
-                                    <th>Points</th>
-                                    <th>Achievements</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for player in leaderboard %}
-                                <tr class="{{ 'table-warning' if loop.index == 1 else 'table-secondary' if loop.index == 2 else 'table-danger' if loop.index == 3 else 'table-primary' if player.is_current_user else '' }}">
-                                    <td>
-                                        {% if loop.index == 1 %}
-                                            <i class="bi bi-trophy-fill text-warning"></i>
-                                        {% elif loop.index == 2 %}
-                                            <i class="bi bi-trophy-fill text-secondary"></i>
-                                        {% elif loop.index == 3 %}
-                                            <i class="bi bi-trophy-fill text-danger"></i>
-                                        {% elif player.is_current_user %}
-                                            <i class="bi bi-person-fill text-primary"></i>
+        <!-- Pulsante per tornare alla selezione del bar -->
+        <div class="text-center mt-4 mb-5">
+            {% if session.get('bar_id') %}
+                <a href="{{ url_for('nuovo_drink') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-repeat me-2"></i> Cambia Bar
+                </a>
                                         {% endif %}
-                                        {{ loop.index }}
-                                    </td>
-                                    <td>
-                                        {{ player.email }}
-                                        {% if player.is_current_user %}
-                                            <span class="badge bg-primary">Tu</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ player.level }}</td>
-                                    <td>{{ player.points }}</td>
-                                    <td>{{ player.achievements_completed }}/{{ player.total_achievements }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
-<style>
-.achievement-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-
-.achievement-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-}
-
-.challenge-step {
-    transition: all 0.3s;
-}
-
-.challenge-step:hover {
-    background-color: #f8f9fa;
-    transform: translateY(-2px);
-}
-
-.progress {
-    background-color: #e9ecef;
-    border-radius: 0.25rem;
-}
-
-.progress-bar {
-    transition: width .6s ease;
-}
-</style>
-
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.progress-bar[data-width]').forEach(function(bar) {
-        bar.style.width = bar.getAttribute('data-width') + '%';
+    // Gestione delle barre di progresso
+    const progressBars = document.querySelectorAll('.progress-bar');
+    progressBars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        bar.style.width = `${width}%`;
     });
 });
 </script>

@@ -1,131 +1,214 @@
 {% extends 'base.html' %}
 
-{% block title %}Seleziona Drink - Arduino Drink{% endblock %}
+{% block title %}SAFESIP - Nuovo Drink{% endblock %}
 
-{% block styles %}
+{% block extra_css %}
 <style>
-    .drink-selection-container {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        border-radius: 15px;
-        padding: 2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        margin-top: 2rem;
+    :root {
+        --lavender-blue: #A7B4ED;
+        --golden-yellow: #FFD569;
+        --blue-gray: #6E8AB7;
     }
 
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-control {
-        border-radius: 10px;
-        border: 2px solid #e9ecef;
-        padding: 0.8rem 1rem;
-        transition: all 0.3s ease;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
-    }
-
-    .form-control:disabled {
-        background-color: #f8f9fa;
-        cursor: not-allowed;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 0.5rem;
-    }
-
-    .stomaco-section {
-        background-color: white;
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .form-check {
-        margin: 1rem 0;
-    }
-
-    .form-check-input {
-        width: 1.2em;
-        height: 1.2em;
-        margin-top: 0.2em;
-    }
-
-    .form-check-label {
-        font-size: 1.1em;
-        color: #495057;
-        margin-left: 0.5rem;
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
     }
 
     .btn-primary {
-        padding: 0.8rem 2rem;
-        font-size: 1.1em;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-        border: none;
-        transition: all 0.3s ease;
+        background-color: var(--lavender-blue) !important;
+        border-color: var(--lavender-blue) !important;
+        color: #000 !important;
     }
 
     .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        background-color: var(--blue-gray) !important;
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
     }
 
-    .btn-primary:disabled {
-        background: #6c757d;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .loading-text {
-        color: #6c757d;
-        font-style: italic;
-    }
-
-    .error-text {
-        color: #dc3545;
-        font-style: italic;
-    }
-
-    .page-title {
-        color: #2c3e50;
-        font-weight: 700;
-        margin-bottom: 2rem;
-        text-align: center;
+    .alert-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
     }
 
     .alert-info {
-        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-        color: white;
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .text-primary {
+        color: #000 !important;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        color: #000;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert {
         border: none;
         border-radius: 10px;
-        padding: 1.5rem;
     }
 
-    .alert-info .btn-primary {
-        background: white;
-        color: #17a2b8;
-        margin-left: 1rem;
+    .form-control:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
     }
 
-    .alert-info .btn-primary:hover {
-        background: #f8f9fa;
+    .form-select:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
     }
 
-    /* Animazioni */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    .card-header {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
     }
 
-    .fade-in {
-        animation: fadeIn 0.5s ease-out;
+    .badge {
+        border-radius: 8px;
+    }
+
+    .badge.bg-primary {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: var(--lavender-blue) !important;
+        color: #000 !important;
+        border-color: var(--lavender-blue) !important;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        border-color: var(--blue-gray) !important;
+        color: #000 !important;
+    }
+
+    .form-label {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .form-text {
+        color: #000;
+    }
+
+    .drink-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #000;
+        padding: 3rem 0;
+    }
+
+    .drink-title {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .drink-subtitle {
+        color: #000;
+    }
+
+    .drink-card {
+        border: 2px solid var(--lavender-blue);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .drink-card:hover {
+        border-color: var(--blue-gray);
+        box-shadow: 0 5px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .drink-card .card-header {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        border-radius: 12px 12px 0 0;
+        color: #000 !important;
+    }
+
+    .drink-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .drink-item {
+        border-left: 4px solid var(--lavender-blue);
+        transition: all 0.3s ease;
+    }
+
+    .drink-item:hover {
+        border-left-color: var(--blue-gray);
+        background-color: rgba(167, 180, 237, 0.1);
+    }
+
+    .drink-item .badge {
+        background-color: var(--golden-yellow);
+        color: #000;
+    }
+
+    .drink-item .badge.alcoholic {
+        background-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .drink-item .badge.special {
+        background-color: var(--blue-gray);
+        color: #000;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .form-check-input:focus {
+        border-color: var(--lavender-blue);
+        box-shadow: 0 0 0 0.2rem rgba(167, 180, 237, 0.25);
+    }
+
+    .form-check-label {
+        color: #000;
+    }
+
+    .btn-outline-primary {
+        color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--lavender-blue);
+        border-color: var(--lavender-blue);
+        color: #000;
+    }
+
+    .btn-outline-danger {
+        color: var(--blue-gray);
+        border-color: var(--blue-gray);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--blue-gray);
+        border-color: var(--blue-gray);
+        color: #000;
     }
 </style>
 {% endblock %}
