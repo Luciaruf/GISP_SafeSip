@@ -12,6 +12,7 @@ from algoritmo import (
 import pytz  # Aggiungiamo pytz per gestire i fusi orari
 from functools import wraps
 import logging
+import random
 
 # Configurazione del logger
 logging.basicConfig(level=logging.INFO)
@@ -561,7 +562,10 @@ def create_consumazione(user_id, drink_id, bar_id, peso_cocktail_g, stomaco_pien
             update_achievement_progress(game_data, 'Mix Master')
         
         # Assegna punti base per la sessione
-        award_points(game_data, 10, 5)  # 10 punti e 5 XP per ogni sessione
+        if not is_alcolico:
+            award_points(game_data, 20, 10)  # Più punti per analcolici
+        else:
+            award_points(game_data, 10, 5)   # Punti standard per alcolici
         
     return response_data['records'][0]
 
@@ -1216,13 +1220,25 @@ def nuovo_drink():
             # Reindirizza alla pagina di monitoraggio
             return redirect(url_for('monitora_drink', drink_id=drink_id, bar_id=bar_id))
     
+    must_analcolici = []
+    if selected_bar_id:
+        # Filtra i drink analcolici per il bar selezionato
+        must_analcolici = [drink for drink in drinks if drink['fields'].get('Alcolico (bool)') == '0']
+    
+    # Recupera il BAC dalla sessione
+    bac_data = SessionManager.get_bac_data()
+    bac_corrente = bac_data['bac'] if bac_data else 0.0
+    show_must_analcolici = bac_corrente > 0.45 and must_analcolici and len(must_analcolici) > 0
+    
     return render_template(
         'nuovo_drink.html',
         cities=cities,
         selected_city=selected_city,
         bars=bars,
         selected_bar_id=selected_bar_id,
-        drinks=drinks
+        drinks=drinks,
+        must_analcolici=must_analcolici,
+        show_must_analcolici=show_must_analcolici
     )
 
 @app.route('/monitora_drink', methods=['GET'])
@@ -1457,15 +1473,17 @@ def create_consumption():
         
         if response.status_code >= 400:
             raise Exception(f"Errore Airtable: {response.status_code} - {response.text}")
-            
-        consumazione = response.json()
-        
+        response_json = response.json()
+        # Airtable può restituire direttamente il record o un array in 'records'
+        if 'records' in response_json:
+            consumazione_id = response_json['records'][0]['id']
+        else:
+            consumazione_id = response_json.get('id')
         # Salva l'ID della consumazione attiva nella sessione
-        SessionManager.set_active_consumption(consumazione['id'])
-        
+        SessionManager.set_active_consumption(consumazione_id)
         # Salva i dati della consumazione nella sessione
         consumption_data = {
-            'id': consumazione['id'],
+            'id': consumazione_id,
             'drink_id': drink_id,
             'bar_id': bar_id,
             'peso_iniziale': peso_iniziale,
@@ -1475,10 +1493,9 @@ def create_consumption():
             'stomaco': stomaco
         }
         SessionManager.set_consumption_data(consumption_data)
-        
         return jsonify({
             'success': True,
-            'consumption_id': consumazione['id'],
+            'consumption_id': consumazione_id,
             'drink_name': drink['fields'].get('Nome', 'Drink sconosciuto'),
             'initial_weight': peso_iniziale,
             'bac': bac
@@ -1672,10 +1689,35 @@ def game():
         }
     }
     
+    # Passa l'informazione del premio omaggio
+    omaggio = has_omaggio(game_data['fields']['Level'])
+
+    # Gestione codice omaggio persistente per livello
+    livello_attuale = game_data['fields']['Level']
+    codice_omaggio = session.get('codice_omaggio')
+    livello_codice = session.get('livello_codice_omaggio')
+    if omaggio:
+        if codice_omaggio is None or livello_codice != livello_attuale:
+            import random
+            codice_omaggio = str(random.randint(100000, 999999))
+            session['codice_omaggio'] = codice_omaggio
+            session['livello_codice_omaggio'] = livello_attuale
+    else:
+        # Se non hai diritto all'omaggio, rimuovi il codice dalla sessione
+        session.pop('codice_omaggio', None)
+        session.pop('livello_codice_omaggio', None)
+        codice_omaggio = None
+    
+    # Calcola il numero di consumazioni dell'utente
+    consumazioni_count = len(get_user_consumazioni(SessionManager.get_user_id()))
+    
     return render_template('game.html', 
                          user=user, 
                          game_data=template_game_data,
-                         leaderboard=leaderboard)
+                         leaderboard=leaderboard,
+                         omaggio=omaggio,
+                         codice_omaggio=codice_omaggio,
+                         consumazioni_count=consumazioni_count)
 
 def get_consumazione_by_id(consumazione_id):
     """Recupera una consumazione specifica da Airtable"""
@@ -1984,7 +2026,7 @@ def create_game_data(user_id):
     # 1 punto per ogni sessione tracciata
     initial_points = (safe_driver_progress * 10) + (mix_master_progress * 5) + time_keeper_progress
     initial_xp = initial_points % 100  # XP va da 0 a 100
-    initial_level = 1 + (initial_points // 100)  # Ogni 100 punti = 1 livello
+    initial_level = calculate_level(initial_points)  # Livello basato sui punti
     
     # Crea il record in Airtable
     url = f'https://api.airtable.com/v0/{BASE_ID}/GameData'
@@ -2039,10 +2081,10 @@ def check_and_reset_daily_challenge(game_data):
         return True
     return False
 
-def calculate_level(xp):
-    """Calcola il livello basato sull'XP"""
-    # Formula: livello = 1 + (XP / 100)
-    return 1 + (xp // 100)
+def calculate_level(points):
+    """Calcola il livello basato sui punti"""
+    # Formula: livello = 1 + (points // 5)
+    return 1 + (points // 5)
 
 def award_points(game_data, points, xp):
     """Assegna punti e XP al giocatore"""
@@ -2052,7 +2094,7 @@ def award_points(game_data, points, xp):
     
     new_points = current_points + points
     new_xp = (current_xp + xp) % 100  # Mantiene XP tra 0 e 100
-    new_level = calculate_level(current_xp + xp)
+    new_level = calculate_level(new_points)  # Livello basato sui punti
     
     updates = {
         'Points': new_points,
@@ -2634,6 +2676,11 @@ def stream():
             time.sleep(0.1)
     
     return Response(event_stream(), mimetype='text/event-stream')
+
+def has_omaggio(level):
+    """Restituisce True se l'utente ha diritto a una consumazione omaggio per il livello raggiunto."""
+    # Esempio: ogni volta che si raggiunge un nuovo livello >= 2
+    return level >= 2
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

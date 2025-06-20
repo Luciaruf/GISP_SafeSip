@@ -422,6 +422,11 @@
 <div class="container py-2">
     <div class="row justify-content-center">
         <div class="col-lg-10">
+            <!-- Alert di successo per la creazione consumazione -->
+            <div id="success-alert" class="alert alert-success d-none" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                Consumazione creata con successo!
+            </div>
             <!-- Card principale -->
             <div class="card shadow-lg border-0 rounded-lg">
                 <div class="card-header bg-gradient-primary text-white py-2">
@@ -632,13 +637,13 @@
                         
                         // Mostra messaggio di successo
                         updateStatusMessage(`Nuova consumazione creata!`, 'success');
-                    } else {
+                        showSuccessAlert();
+                    } else if (data.error) {
                         updateStatusMessage('Errore: ' + data.error, 'danger');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    updateStatusMessage('Errore durante la creazione della consumazione', 'danger');
                 });
             });
         }
@@ -1036,14 +1041,18 @@
         const statusElement = document.getElementById('status-message');
         if (!statusElement) return;
         
-        // Rimuovi le classi di tipo esistenti
         statusElement.classList.remove('alert-info', 'alert-success', 'alert-warning', 'alert-danger');
-        
-        // Aggiungi la classe appropriata
         statusElement.classList.add('alert-' + type);
-        
-        // Aggiorna il messaggio
         statusElement.innerHTML = '<i class="fas fa-info-circle me-2"></i> ' + message;
+
+        // Se è un successo, dopo 3 secondi torna al messaggio di default
+        if (type === 'success') {
+            setTimeout(() => {
+                statusElement.classList.remove('alert-success', 'alert-danger', 'alert-warning');
+                statusElement.classList.add('alert-info');
+                statusElement.innerHTML = '<i class="fas fa-info-circle me-2"></i> Monitoraggio in corso...';
+            }, 3000);
+        }
     }
 
     // Funzione per registrare un sorso via AJAX
@@ -1144,6 +1153,17 @@
             if (pesoInput) {
                 pesoInput.value = peso;
             }
+        }
+    }
+
+    // Funzione per mostrare l'alert di successo
+    function showSuccessAlert() {
+        const alertDiv = document.getElementById('success-alert');
+        if (alertDiv) {
+            alertDiv.classList.remove('d-none');
+            setTimeout(() => {
+                alertDiv.classList.add('d-none');
+            }, 3000);
         }
     }
 </script>
