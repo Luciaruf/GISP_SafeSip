@@ -198,7 +198,6 @@
         font-size: 1.1rem;
         color: #000;
         margin-bottom: 1.5rem;
-        font-style: italic;
     }
 
     .testimonial-author {
@@ -226,13 +225,14 @@
     }
 
     .partner-section {
-        background: linear-gradient(135deg, var(--blue-gray), var(--lavender-blue));
-        padding: 4rem 0;
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
         color: #fff;
+        padding: 5rem 0;
         position: relative;
         overflow: hidden;
         border-radius: 4rem;
-        margin: 3rem 0;
+        margin: 2rem auto;
+        max-width: 100%;
     }
 
     .partner-section::before {
@@ -244,6 +244,7 @@
         bottom: 0;
         background: url('/static/images/pattern.png') repeat;
         opacity: 0.1;
+        border-radius: 4rem;
     }
 
     .partner-content {
@@ -351,6 +352,240 @@
             font-size: 1.1rem;
         }
     }
+
+    .sponsor-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #fff;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4rem;
+        margin: 2rem auto;
+        max-width: 100%;
+    }
+
+    .sponsor-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('/static/images/pattern.png') repeat;
+        opacity: 0.1;
+        border-radius: 4rem;
+    }
+
+    .sponsor-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .sponsor-subtitle {
+        font-size: 1.25rem;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 3rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 1;
+    }
+
+    .sponsor-card {
+        background: #fff;
+        border-radius: 2rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        border: 2px solid var(--lavender-blue);
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+        position: relative;
+        z-index: 1;
+    }
+
+    .sponsor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .sponsor-logo {
+        max-height: 140px;
+        width: auto;
+        margin-bottom: 2rem;
+        transition: all 0.4s ease;
+        filter: grayscale(100%);
+        opacity: 0.8;
+    }
+
+    .sponsor-card:hover .sponsor-logo {
+        filter: grayscale(0%);
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    .sponsor-name {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--blue-gray);
+        margin-bottom: 1rem;
+        transition: color 0.3s ease;
+    }
+
+    .sponsor-card:hover .sponsor-name {
+        color: var(--golden-yellow);
+    }
+
+    .sponsor-description {
+        color: #444;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    .sponsor-button {
+        display: inline-block;
+        margin-top: 2rem;
+        text-decoration: none;
+        position: relative;
+        z-index: 1;
+        background: var(--golden-yellow) !important;
+        border-color: var(--golden-yellow) !important;
+        color: #000 !important;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        border-radius: 2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 213, 105, 0.3);
+    }
+
+    .sponsor-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 213, 105, 0.4);
+        background: #e6c05f !important;
+        border-color: #e6c05f !important;
+    }
+
+    @media (max-width: 768px) {
+        .sponsor-title {
+            font-size: 2.5rem;
+        }
+
+        .sponsor-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .sponsor-card {
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .contact-section {
+        background: linear-gradient(45deg, var(--lavender-blue), var(--blue-gray));
+        color: #fff;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 4rem;
+        margin: 2rem auto;
+        max-width: 100%;
+    }
+
+    .contact-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('/static/images/pattern.png') repeat;
+        opacity: 0.1;
+        border-radius: 4rem;
+    }
+
+    .contact-card {
+        background: #fff;
+        border-radius: 2rem;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        border: 2px solid var(--lavender-blue);
+        box-shadow: 0 4px 6px rgba(167, 180, 237, 0.1);
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(167, 180, 237, 0.2);
+    }
+
+    .contact-icon {
+        margin-bottom: 1rem;
+    }
+
+    .contact-icon i {
+        font-size: 2rem !important;
+    }
+
+    .contact-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #000;
+    }
+
+    .contact-text {
+        color: #000;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .contact-card .btn {
+        background: var(--golden-yellow) !important;
+        border-color: var(--golden-yellow) !important;
+        color: #000 !important;
+        font-weight: 600;
+        padding: 0.5rem 1.25rem;
+        border-radius: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 213, 105, 0.3);
+        font-size: 0.9rem;
+    }
+
+    .contact-card .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 213, 105, 0.4);
+        background: #e6c05f !important;
+        border-color: #e6c05f !important;
+    }
+
+    @media (max-width: 768px) {
+        .contact-card {
+            margin-bottom: 2rem;
+        }
+    }
+
+    .contact-section .section-title,
+    .contact-section .section-subtitle {
+        color: #fff;
+    }
+
+    .contact-section .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .contact-section .section-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 3rem;
+    }
 </style>
 {% endblock %}
 
@@ -454,6 +689,41 @@
     </section>
     {% endif %}
 
+<!-- Sponsor Section -->
+<section class="sponsor-section" id="sponsors">
+    <div class="container">
+        <h2 class="sponsor-title">I Nostri Sponsor</h2>
+        <p class="sponsor-subtitle">Una rete di eccellenze che porta innovazione e qualità nel mondo delle bevande</p>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="sponsor-card">
+                    <img src="{{ url_for('static', filename='images/sponsor_nectar_haven_color.png') }}" alt="Nectar Haven Logo" class="sponsor-logo">
+                    <h3 class="sponsor-name">Nectar Haven</h3>
+                    <p class="sponsor-description">Innovatori nel mondo delle bevande analcoliche, portano creatività e freschezza con i loro mocktail e spremute artigianali.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sponsor-card">
+                    <img src="{{ url_for('static', filename='images/sponsor_spirit_craft_color.png') }}" alt="Spirit Craft Logo" class="sponsor-logo">
+                    <h3 class="sponsor-name">Spirit Craft Distillery</h3>
+                    <p class="sponsor-description">Maestri dell'arte della distillazione, creano prodotti di eccellenza che raccontano storie di tradizione e innovazione.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="sponsor-card">
+                    <img src="{{ url_for('static', filename='images/sponsor_bubble_bliss_color.png') }}" alt="Bubble Bliss Logo" class="sponsor-logo">
+                    <h3 class="sponsor-name">Bubble Bliss S.p.A.</h3>
+                    <p class="sponsor-description">Pionieri nelle bevande frizzanti, combinano ingredienti premium con tecnologie all'avanguardia per esperienze uniche.</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="{{ url_for('sponsorizzazioni') }}" class="btn btn-lg sponsor-button">Scopri la nostra rete di eccellenze</a>
+        </div>
+    </div>
+</section>
+
 <!-- Testimonials Section -->
 <section class="testimonials-section">
     <div class="container">
@@ -465,25 +735,60 @@
                 <div class="testimonial-card">
                     <p class="testimonial-text">"SAFESIP mi ha aiutato a prendere consapevolezza del mio consumo di alcolici. Ora bevo in modo più responsabile."</p>
                     <div class="testimonial-author">Marco Rossi</div>
-                    <div class="testimonial-role">Utente dal 2023</div>
+                    <div class="testimonial-role">Utente dal 2025</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"L'interfaccia è intuitiva e le funzionalità sono davvero utili. Mi sento più sicuro quando esco con gli amici."</p>
+                    <p class="testimonial-text">"L'interfaccia è intuitiva e le funzionalità sono davvero utili. Mi sento più sicura quando esco con gli amici."</p>
                     <div class="testimonial-author">Laura Bianchi</div>
-                    <div class="testimonial-role">Utente dal 2023</div>
+                    <div class="testimonial-role">Utente dal 2025</div>
                 </div>
             </div>
                     <div class="col-md-4">
                 <div class="testimonial-card">
                     <p class="testimonial-text">"Il sistema di gamification è geniale! Mi motiva a mantenere abitudini di consumo responsabili."</p>
                     <div class="testimonial-author">Giovanni Verdi</div>
-                    <div class="testimonial-role">Utente dal 2023</div>
+                    <div class="testimonial-role">Utente dal 2025</div>
                 </div>
                             </div>
                         </div>
                     </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section py-5" id="contact">
+    <div class="container">
+        <h2 class="section-title text-center mb-4">Contatta l'Assistenza</h2>
+        <p class="section-subtitle text-center mb-5">Siamo qui per aiutarti. Contattaci per qualsiasi domanda o assistenza.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="contact-card text-center p-4">
+                    <div class="contact-icon mb-3">
+                        <i class="bi bi-envelope-fill fa-3x" style="color: var(--golden-yellow);"></i>
+                    </div>
+                    <h3 class="contact-title">Email</h3>
+                    <p class="contact-text">supporto@safesip.it</p>
+                    <a href="mailto:supporto@safesip.it" class="btn btn-primary mt-3">
+                        <i class="bi bi-envelope me-2"></i>Invia Email
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="contact-card text-center p-4">
+                    <div class="contact-icon mb-3">
+                        <i class="bi bi-telephone-fill fa-3x" style="color: var(--golden-yellow);"></i>
+                    </div>
+                    <h3 class="contact-title">Telefono</h3>
+                    <p class="contact-text">+39 02 1234567</p>
+                    <a href="tel:+39021234567" class="btn btn-primary mt-3">
+                        <i class="bi bi-telephone me-2"></i>Chiama Ora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- CTA Section -->

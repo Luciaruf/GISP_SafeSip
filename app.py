@@ -2092,6 +2092,10 @@ def get_active_consumption():
 def partner():
     return render_template('partner.html')
 
+@app.route('/sponsorizzazioni')
+def sponsorizzazioni():
+    return render_template('sponsorizzazioni.html')
+
 @app.route('/register_partner', methods=['POST'])
 def register_partner():
     try:
